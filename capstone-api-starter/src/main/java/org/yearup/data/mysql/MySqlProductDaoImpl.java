@@ -1,6 +1,8 @@
 package org.yearup.data.mysql;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.yearup.models.Product;
 import org.yearup.data.ProductDao;
 
@@ -10,52 +12,65 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Repository
 public class MySqlProductDaoImpl extends MySqlDaoBase implements ProductDao
 {
-    public MySqlProductDaoImpl(DataSource dataSource)
-    {
+    private DataSource dataSource;
+
+    @Autowired
+    public MySqlProductDaoImpl(DataSource dataSource) {
         super(dataSource);
     }
 
     @Override
     public List<Product> search(Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String subCategory)
     {
-        List<Product> products = new ArrayList<>();
-
-        String sql = "SELECT * FROM products " +
-                "WHERE (category_id = ? OR ? = -1) " +
-                "   AND (price <= ? OR ? = -1) " +
-                "   AND (subcategory = ? OR ? = '') ";
-
-        categoryId = categoryId == null ? -1 : categoryId;
-        minPrice = minPrice == null ? new BigDecimal("-1") : minPrice;
-        maxPrice = maxPrice == null ? new BigDecimal("-1") : maxPrice;
-        subCategory = subCategory == null ? "" : subCategory;
-
-        try (Connection connection = getConnection())
-        {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, categoryId);
-            statement.setInt(2, categoryId);
-            statement.setBigDecimal(3, minPrice);
-            statement.setBigDecimal(4, minPrice);
-            statement.setString(5, subCategory);
-            statement.setString(6, subCategory);
-
-            ResultSet row = statement.executeQuery();
-
-            while (row.next())
-            {
-                Product product = mapRow(row);
-                products.add(product);
-            }
+        StringBuilder query = new StringBuilder("SELECT * FROM products WHERE 1=1");
+        List<Object> params = new ArrayList<>();
+        if(categoryId != null){
+            query.append(" AND category_id = ?");
+            params.add(categoryId);
         }
-        catch (SQLException e)
-        {
+        if(minPrice != null){
+            query.append(" AND price >= ?");
+            params.add(minPrice);
+        }
+        if(maxPrice != null){
+            query.append(" AND price <= ?");
+            params.add(maxPrice);
+        }
+        if(subCategory != null && !subCategory.isBlank()){
+            query.append(" AND subcategory = ?");
+            params.add(subCategory);
+        }
+        List<Product> products = new ArrayList<>();
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
+        ) {
+            for (int i = 0; i < params.size(); i++){
+                preparedStatement.setObject(i + 1, params.get(i));
+            }
+
+            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    int productId = resultSet.getInt("product_id");
+                    String name = resultSet.getString("name");
+                    BigDecimal price = resultSet.getBigDecimal("price");
+                    int categoryId2 = resultSet.getInt("category_id");
+                    String description = resultSet.getString("description");
+                    String subCategory2 = resultSet.getString("subcategory");
+                    int stock = resultSet.getInt("stock");
+                    boolean isFeatured = resultSet.getBoolean("featured");
+                    String imageUrl = resultSet.getString("image_url");
+
+
+                    products.add(new Product(productId, name, price, categoryId2, description, subCategory2, stock, isFeatured, imageUrl));
+                }
+            }
+
+        } catch(SQLException e) {
             throw new RuntimeException(e);
         }
-
         return products;
     }
 

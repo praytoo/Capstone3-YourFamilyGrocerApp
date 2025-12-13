@@ -12,12 +12,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MySqlProductDaoTest extends BaseDaoTestClass
 {
-    private MySqlProductDao dao;
+    private MySqlProductDaoImpl dao;
 
     @BeforeEach
     public void setup()
     {
-        dao = new MySqlProductDao(dataSource);
+        dao = new MySqlProductDaoImpl(dataSource);
     }
 
     @Test

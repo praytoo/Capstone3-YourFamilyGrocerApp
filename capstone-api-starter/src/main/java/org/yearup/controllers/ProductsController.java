@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.yearup.models.Product;
 import org.yearup.data.ProductDao;
+import org.yearup.service.ProductService;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,30 +17,29 @@ import java.util.List;
 @CrossOrigin
 public class ProductsController
 {
-    private ProductDao productDao;
+    private ProductService productService;
 
     @Autowired
-    public ProductsController(ProductDao productDao)
-    {
-        this.productDao = productDao;
+    public ProductsController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping("")
     @PreAuthorize("permitAll()")
     public List<Product> search(@RequestParam(name="cat", required = false) Integer categoryId,
-                                @RequestParam(name="minPrice", required = false) BigDecimal minPrice,
-                                @RequestParam(name="maxPrice", required = false) BigDecimal maxPrice,
+                                @RequestParam(name="minPrice", required = false) String minPrice,
+                                @RequestParam(name="maxPrice", required = false) String maxPrice,
                                 @RequestParam(name="subCategory", required = false) String subCategory
                                 )
     {
-        try
-        {
-            return productDao.search(categoryId, minPrice, maxPrice, subCategory);
-        }
-        catch(Exception ex)
-        {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
-        }
+        BigDecimal min = (minPrice != null && !minPrice.isBlank())
+            ? new BigDecimal(minPrice)
+            : null;
+
+        BigDecimal max = (maxPrice != null && !maxPrice.isBlank())
+                ? new BigDecimal(maxPrice)
+                : null;
+        return productService.search(categoryId, min, max, subCategory);
     }
 
     @GetMapping("{id}")
@@ -48,7 +48,7 @@ public class ProductsController
     {
         try
         {
-            var product = productDao.getById(id);
+            var product = productService.getById(id);
 
             if(product == null)
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -67,7 +67,7 @@ public class ProductsController
     {
         try
         {
-            return productDao.create(product);
+            return productService.create(product);
         }
         catch(Exception ex)
         {
@@ -81,7 +81,7 @@ public class ProductsController
     {
         try
         {
-            productDao.create(product);
+            productService.create(product);
         }
         catch(Exception ex)
         {
@@ -95,12 +95,12 @@ public class ProductsController
     {
         try
         {
-            var product = productDao.getById(id);
+            var product = productService.getById(id);
 
             if(product == null)
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
-            productDao.delete(id);
+            productService.delete(id);
         }
         catch(Exception ex)
         {

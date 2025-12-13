@@ -1,15 +1,18 @@
 package org.yearup.data.mysql;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.yearup.models.Profile;
 import org.yearup.data.ProfileDao;
 
 import javax.sql.DataSource;
 import java.sql.*;
 
-@Component
+@Repository
 public class MySqlProfileDaoImpl extends MySqlDaoBase implements ProfileDao
 {
+    @Autowired
     public MySqlProfileDaoImpl(DataSource dataSource)
     {
         super(dataSource);
