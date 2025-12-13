@@ -15,8 +15,6 @@ import java.util.List;
 @Repository
 public class MySqlCategoryDaoImpl extends MySqlDaoBase implements CategoryDao
 {
-    private DataSource dataSource;
-
     @Autowired
     public MySqlCategoryDaoImpl(DataSource dataSource) {
         super(dataSource);
