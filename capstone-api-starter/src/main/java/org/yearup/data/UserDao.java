@@ -1,9 +1,11 @@
 package org.yearup.data;
 
+import org.springframework.stereotype.Component;
 import org.yearup.models.User;
 
 import java.util.List;
 
+@Component
 public interface UserDao {
 
     List<User> getAll();

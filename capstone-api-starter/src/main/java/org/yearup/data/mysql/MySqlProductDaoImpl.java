@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class MySqlProductDao extends MySqlDaoBase implements ProductDao
+public class MySqlProductDaoImpl extends MySqlDaoBase implements ProductDao
 {
-    public MySqlProductDao(DataSource dataSource)
+    public MySqlProductDaoImpl(DataSource dataSource)
     {
         super(dataSource);
     }
@@ -87,7 +87,6 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao
 
         return products;
     }
-
 
     @Override
     public Product getById(int productId)

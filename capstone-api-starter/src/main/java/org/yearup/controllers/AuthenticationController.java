@@ -57,7 +57,8 @@ public class AuthenticationController {
             if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
             HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+            HttpHeaders.add(JWTFilter.AUTHORIZATION_HEADER,
+                    "Bearer " + jwt);
             return new ResponseEntity<>(new LoginResponseDto(jwt, user), httpHeaders, HttpStatus.OK);
         }
         catch(Exception ex)

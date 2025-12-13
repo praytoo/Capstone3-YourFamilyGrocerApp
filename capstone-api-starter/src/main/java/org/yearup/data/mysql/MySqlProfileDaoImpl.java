@@ -8,9 +8,9 @@ import javax.sql.DataSource;
 import java.sql.*;
 
 @Component
-public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao
+public class MySqlProfileDaoImpl extends MySqlDaoBase implements ProfileDao
 {
-    public MySqlProfileDao(DataSource dataSource)
+    public MySqlProfileDaoImpl(DataSource dataSource)
     {
         super(dataSource);
     }
