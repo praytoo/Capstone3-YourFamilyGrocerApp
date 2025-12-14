@@ -6,7 +6,38 @@ import java.util.Map;
 
 public class ShoppingCart
 {
+    private Integer userId;
+    private Integer productId;
+    private Integer quantity;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
     private Map<Integer, ShoppingCartItem> items = new HashMap<>();
+
+    public ShoppingCart(Integer userId, Integer productId, Integer quantity) {
+    }
 
     public Map<Integer, ShoppingCartItem> getItems()
     {
@@ -18,7 +49,7 @@ public class ShoppingCart
         this.items = items;
     }
 
-    public boolean contains(int productId)
+    public boolean contains(Integer productId)
     {
         return items.containsKey(productId);
     }
@@ -28,7 +59,7 @@ public class ShoppingCart
         items.put(item.getProductId(), item);
     }
 
-    public ShoppingCartItem get(int productId)
+    public ShoppingCartItem get(Integer productId)
     {
         return items.get(productId);
     }
