@@ -54,8 +54,8 @@ public class ShoppingCartController {
     // add a POST method to add a product to the cart - the url should be
     // http://localhost:8080/cart/products/15 (15 is the productId to be added
     @PostMapping("/products/{productId}")
-    public ShoppingCart addProduct(@PathVariable Integer productId, ShoppingCart shoppingCart, Principal principal) {
-        return shoppingCartService.addProduct(productId, shoppingCart, principal);
+    public ShoppingCart addProduct(@PathVariable Integer productId, Integer userId, Integer quantity, Principal principal) {
+        return shoppingCartService.addProduct(productId, userId, quantity);
     }
 
     // add a PUT method to update an existing product in the cart - the url should be

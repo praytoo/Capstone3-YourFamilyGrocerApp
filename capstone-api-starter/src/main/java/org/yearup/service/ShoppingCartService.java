@@ -24,15 +24,15 @@ public class ShoppingCartService {
         return shoppingCartDao.getByUserId(userId);
     }
     public List<ShoppingCart> getCart(Principal principal){
-        return shoppingCartDao.getCart(principal);
+        return shoppingCartDao.getCart();
     }
-    public ShoppingCart addProduct(Integer productId, ShoppingCart shoppingCart, Principal principal){
-        return shoppingCartDao.addProduct(productId, shoppingCart, principal);
+    public ShoppingCart addProduct(Integer userId, Integer productId, Integer quantity){
+        return shoppingCartDao.addProduct(userId, productId, quantity);
     }
     public void updateCart(Integer productId, ShoppingCartItem shoppingCartItem, Principal principal){
-        shoppingCartDao.updateCart(productId, shoppingCartItem, principal);
+        shoppingCartDao.updateCart(productId, shoppingCartItem);
     }
-    public void deleteCart(ShoppingCart shoppingCart,Principal principal){
-        shoppingCartDao.deleteCart(shoppingCart, principal);
+    public void deleteCart(ShoppingCart shoppingCart, Principal principal){
+        shoppingCartDao.deleteCart(shoppingCart);
     }
 }
