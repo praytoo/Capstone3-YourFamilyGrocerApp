@@ -1,5 +1,6 @@
 package org.yearup.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.yearup.data.ProductDao;
 import org.yearup.models.Product;
@@ -11,6 +12,7 @@ import java.util.List;
 public class ProductService {
     private ProductDao productDao;
 
+    @Autowired
     public ProductService(ProductDao productDao) {
         this.productDao = productDao;
     }

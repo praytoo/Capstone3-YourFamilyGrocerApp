@@ -1,15 +1,18 @@
 package org.yearup.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.yearup.data.CategoryDao;
 import org.yearup.models.Category;
 
+import javax.validation.constraints.AssertFalse;
 import java.util.List;
 
 @Service
 public class CategoryService {
     private CategoryDao categoryDao;
 
+    @Autowired
     public CategoryService(CategoryDao categoryDao) {
         this.categoryDao = categoryDao;
     }
