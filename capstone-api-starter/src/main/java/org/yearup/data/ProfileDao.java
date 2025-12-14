@@ -8,4 +8,6 @@ import org.yearup.models.Profile;
 public interface ProfileDao
 {
     Profile create(Profile profile);
+    Profile getByUserId(Integer userId);
+    void updateProfile(Integer userId, Profile profile);
 }
