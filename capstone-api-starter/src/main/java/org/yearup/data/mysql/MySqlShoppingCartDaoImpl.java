@@ -39,26 +39,29 @@ public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCa
     }
 
     @Override
-    public List<ShoppingCart> getCart() {
-        List<ShoppingCart> sCart = new ArrayList<>();
+    public List<ShoppingCartItem> getCart(Integer userId) {
+        List<ShoppingCartItem> cart = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM shopping_cart;");
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT sc.quantity, p.product_id, p.name, p.price, p.category_id, p.description, p.subcategory, p.image_url, p.stock, p.featured FROM groceryapp.shopping_cart AS sc JOIN groceryapp.products AS p ON sc.product_id = p.product_id WHERE sc.user_id = ?;");
+             ) {
+            preparedStatement.setInt(1, userId);
 
-             ResultSet resultSet = preparedStatement.executeQuery();) {
 
-            while (resultSet.next()) {
-                int userId = resultSet.getInt("user_id");
-                int productId = resultSet.getInt("product_id");
-                int quantity = resultSet.getInt("quantity");
+            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Product product = new Product(resultSet.getInt("product_id"), resultSet.getString("name"), resultSet.getBigDecimal("price"), resultSet.getInt("category_id"), resultSet.getString("description"), resultSet.getString("subcategory"), resultSet.getInt("stock"), resultSet.getBoolean("featured"), resultSet.getString("image_url"));
 
-                ShoppingCart sCart2 = new ShoppingCart(userId, productId, quantity);
-                sCart.add(sCart2);
+                    ShoppingCartItem item = new ShoppingCartItem();
+                    item.setProduct(product);
+                    item.setQuantity(resultSet.getInt("quantity"));
+                    cart.add(item);
+                }
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return sCart;
+        return cart;
     }
 
     @Override

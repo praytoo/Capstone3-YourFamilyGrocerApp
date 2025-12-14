@@ -26,8 +26,8 @@ public class ShoppingCartService {
     public ShoppingCart getByUserId(Integer userId){
         return shoppingCartDao.getByUserId(userId);
     }
-    public List<ShoppingCart> getCart(Principal principal){
-        return shoppingCartDao.getCart();
+    public List<ShoppingCartItem> getCart(Integer userId){
+        return shoppingCartDao.getCart(userId);
     }
     public ShoppingCart addProduct(Integer productId, Integer quantity, Principal principal){
        String username = principal.getName();

@@ -40,15 +40,13 @@ public class ShoppingCartController {
 
     // each method in this controller requires a Principal object as a parameter
     @GetMapping
-    public List<ShoppingCart> getCart(Principal principal) {
+    public List<ShoppingCartItem> getCart(Principal principal) {
             // get the currently logged-in username
             String userName = principal.getName();
             // find database user by userId
             User user = userService.getByUserName(userName);
-            Integer userId = user.getId();
-
             // use the shoppingcartDao to get all items in the cart and return the cart
-            return shoppingCartService.getCart(principal);
+            return shoppingCartService.getCart(user.getId());
     }
 
     // add a POST method to add a product to the cart - the url should be
