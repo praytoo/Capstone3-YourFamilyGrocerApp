@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 import java.security.Principal;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -111,6 +112,39 @@ public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCa
     public void deleteCart(Integer userId, ShoppingCart shoppingCart) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM shopping_cart WHERE user_id = ?;")) {
+
+            preparedStatement.setInt(1, userId);
+
+            int rows = preparedStatement.executeUpdate();
+
+            System.out.println("Rows updated: " + rows);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<ShoppingCartItem> getItemsByUserId(Integer userId) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM shopping_cart WHERE user_id = ?;");
+        ) { preparedStatement.setInt(1, userId);
+
+            try(ResultSet resultSet = preparedStatement.executeQuery();) {
+                while (resultSet.next()) {
+                    return Collections.singletonList(new ShoppingCartItem(resultSet.getInt("user_id"), resultSet.getInt("product_id"), resultSet.getInt("quantity")));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    @Override
+    public void clearCart(Integer userId) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM shopping_cart WHERE userId = ?;")) {
 
             preparedStatement.setInt(1, userId);
 

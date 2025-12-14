@@ -9,6 +9,21 @@ public class ShoppingCartItem
     private Product product;
     private int quantity = 1;
     private BigDecimal discountPercent = BigDecimal.ZERO;
+    private BigDecimal price;
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public ShoppingCartItem() {
+    }
+
+    public ShoppingCartItem(int userId, int productId, int quantity) {
+    }
 
     public Product getProduct()
     {
