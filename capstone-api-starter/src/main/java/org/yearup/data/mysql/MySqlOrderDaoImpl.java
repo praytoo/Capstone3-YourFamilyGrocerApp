@@ -38,17 +38,14 @@ public class MySqlOrderDaoImpl extends MySqlDaoBase implements OrderDao {
             throw new RuntimeException(e);
         }
 
-        return null;
+        return userId;
     }
 
     @Override
     public void addOrderLineItem(Integer orderId, ShoppingCartItem item) {
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO order_line_items (order_id, product_id, quantity, sales_price) VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);) {
+             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO order_line_items (order_id, product_id, quantity, sales_price) SELECT o.order_id, sc.product_id, sc.quantity, p.price FROM groceryapp.shopping_cart AS sc JOIN groceryapp.products AS p ON sc.product_id = p.product_id JOIN groceryapp.orders AS o ON sc.user_id = o.user_id WHERE o.order_id = ?;", Statement.RETURN_GENERATED_KEYS);) {
             preparedStatement.setInt(1, orderId);
-            preparedStatement.setInt(2, item.getProductId());
-            preparedStatement.setInt(3, item.getQuantity());
-            preparedStatement.setBigDecimal(4, item.getPrice());
 
             int rows = preparedStatement.executeUpdate();
 
