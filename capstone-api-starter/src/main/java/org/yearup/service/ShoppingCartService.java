@@ -42,6 +42,9 @@ public class ShoppingCartService {
         shoppingCartDao.updateCart(userId, productId, shoppingCartItem);
     }
     public void deleteCart(ShoppingCart shoppingCart, Principal principal){
-        shoppingCartDao.deleteCart(shoppingCart);
+        String username = principal.getName();
+        User user = userService.getByUserName(username);
+        Integer userId = user.getId();
+        shoppingCartDao.deleteCart(userId, shoppingCart);
     }
 }

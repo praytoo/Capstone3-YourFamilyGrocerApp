@@ -105,11 +105,11 @@ public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCa
     }
 
     @Override
-    public void deleteCart(ShoppingCart shoppingCart) {
+    public void deleteCart(Integer userId, ShoppingCart shoppingCart) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM shopping_cart WHERE user_id = ?;")) {
 
-            preparedStatement.setInt(1, shoppingCart.getUserId());
+            preparedStatement.setInt(1, userId);
 
             int rows = preparedStatement.executeUpdate();
 

@@ -17,5 +17,5 @@ public interface ShoppingCartDao
     List<ShoppingCart> getCart();
     ShoppingCart addProduct(Integer userId, Integer productId, Integer quantity);
     void updateCart(Integer userId, Integer productId, ShoppingCartItem shoppingCartItem);
-    void deleteCart(ShoppingCart shoppingCart);
+    void deleteCart(Integer userId, ShoppingCart shoppingCart);
 }
