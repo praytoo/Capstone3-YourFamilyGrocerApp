@@ -74,7 +74,6 @@ function showCart()
 function clearCart()
 {
     cartService.clearCart();
-    cartService.loadCartPage();
 }
 
 function setCategory(control)

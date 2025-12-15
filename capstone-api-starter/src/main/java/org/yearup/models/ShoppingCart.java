@@ -2,6 +2,7 @@ package org.yearup.models;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ShoppingCart
@@ -9,14 +10,18 @@ public class ShoppingCart
     private Integer userId;
     private Integer productId;
     private Integer quantity;
+    private BigDecimal total;
+    private Map<Integer, ShoppingCartItem> items = new HashMap<>();
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
 
     public ShoppingCart() {
     }
 
-    public ShoppingCart(Integer userId, Integer productId, Integer quantity, Map<Integer, ShoppingCartItem> items) {
+    public ShoppingCart(Integer userId, Map<Integer, ShoppingCartItem> items) {
         this.userId = userId;
-        this.productId = productId;
-        this.quantity = quantity;
         this.items = items;
     }
 
@@ -43,8 +48,6 @@ public class ShoppingCart
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
-
-    private Map<Integer, ShoppingCartItem> items = new HashMap<>();
 
     public ShoppingCart(Integer userId, Integer productId, Integer quantity) {
     }

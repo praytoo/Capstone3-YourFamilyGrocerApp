@@ -7,27 +7,28 @@ class ShoppingCartService {
         total:0
     };
 
-    addToCart(productId)
-    {
+    addToCart(productId) {
         const url = `${config.baseUrl}/cart/products/${productId}`;
-        // const headers = userService.getHeaders();
+        const token = localStorage.getItem("token");
 
-        axios.post(url, {})// ,{headers})
-            .then(response => {
-                this.setCart(response.data)
-
-                this.updateCartDisplay()
-
-            })
-            .catch(error => {
-
-                const data = {
-                    error: "Add to cart failed."
-                };
-
-                templateBuilder.append("error", data, "errors")
-            })
+        axios.post(url, {}, {
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => {
+            console.log("GET /cart response:", response.data);
+            this.setCart(response.data)
+            this.updateCartDisplay()
+            this.loadCartPage();
+        })
+        .catch(error => {
+            const data = { error: "Add to cart failed." };
+            templateBuilder.append("error", data, "errors")
+        })
     }
+
 
     setCart(data)
     {
@@ -43,28 +44,25 @@ class ShoppingCartService {
         }
     }
 
-    loadCart()
-    {
-
+    loadCart() {
         const url = `${config.baseUrl}/cart`;
+        const token = localStorage.getItem("token");
 
-        axios.get(url)
-            .then(response => {
-                this.setCart(response.data)
-
-                this.updateCartDisplay()
-
-            })
-            .catch(error => {
-
-                const data = {
-                    error: "Load cart failed."
-                };
-
-                templateBuilder.append("error", data, "errors")
-            })
-
+        axios.get(url, {
+            headers: {
+                "Authorization": `Bearer ${token}`,
+            }
+        })
+        .then(response => {
+            this.setCart(response.data)
+            this.updateCartDisplay()
+        })
+        .catch(error => {
+            const data = { error: "Load cart failed." };
+            templateBuilder.append("error", data, "errors")
+        })
     }
+
 
     loadCartPage()
     {

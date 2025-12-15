@@ -11,6 +11,7 @@ import org.yearup.models.User;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ShoppingCartService {
@@ -26,14 +27,17 @@ public class ShoppingCartService {
     public ShoppingCart getByUserId(Integer userId){
         return shoppingCartDao.getByUserId(userId);
     }
-    public List<ShoppingCartItem> getCart(Integer userId){
+    public Map<Integer, ShoppingCartItem> getCart(Principal principal){
+        String username = principal.getName();
+        User user = userService.getByUserName(username);
+        Integer userId = user.getId();
         return shoppingCartDao.getCart(userId);
     }
-    public ShoppingCart addProduct(Integer productId, Integer quantity, Principal principal){
+    public void addProduct(Integer productId, Integer quantity, Principal principal){
        String username = principal.getName();
        User user = userService.getByUserName(username);
        Integer userId = user.getId();
-        return shoppingCartDao.addProduct(userId, productId, quantity);
+       shoppingCartDao.addProduct(userId, productId, quantity);
     }
     public void updateCart(Integer productId, ShoppingCartItem shoppingCartItem, Principal principal){
         String username = principal.getName();
@@ -41,10 +45,18 @@ public class ShoppingCartService {
         Integer userId = user.getId();
         shoppingCartDao.updateCart(userId, productId, shoppingCartItem);
     }
+    /*
     public void deleteCart(ShoppingCart shoppingCart, Principal principal){
         String username = principal.getName();
         User user = userService.getByUserName(username);
         Integer userId = user.getId();
         shoppingCartDao.deleteCart(userId, shoppingCart);
+    }
+    */
+    public void clearCart(Principal principal){
+        String username = principal.getName();
+        User user = userService.getByUserName(username);
+        Integer userId = user.getId();
+        shoppingCartDao.clearCart(userId);
     }
 }

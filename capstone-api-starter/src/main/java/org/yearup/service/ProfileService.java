@@ -1,6 +1,7 @@
 package org.yearup.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.yearup.data.ProfileDao;
 import org.yearup.models.Profile;
@@ -20,7 +21,5 @@ public class ProfileService {
     public Profile getByUserId(Integer userId){
         return profileDao.getByUserId(userId);
     }
-    public void updateProfile(Integer userId, Profile profile){
-        profileDao.updateProfile(userId, profile);
-    }
+    public Profile updateProfile(Integer userId, Profile profile) {return profileDao.updateProfile(userId, profile);}
 }

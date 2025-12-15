@@ -10,7 +10,9 @@ import org.yearup.models.ShoppingCartItem;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCartDao {
@@ -37,8 +39,8 @@ public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCa
     }
 
     @Override
-    public List<ShoppingCartItem> getCart(Integer userId) {
-        List<ShoppingCartItem> cart = new ArrayList<>();
+    public Map<Integer, ShoppingCartItem> getCart(Integer userId) {
+        Map<Integer, ShoppingCartItem> cart = new HashMap<>();
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT sc.quantity, p.product_id, p.name, p.price, p.category_id, p.description, p.subcategory, p.image_url, p.stock, p.featured FROM groceryapp.shopping_cart AS sc JOIN groceryapp.products AS p ON sc.product_id = p.product_id WHERE sc.user_id = ?;");
              ) {
@@ -50,7 +52,7 @@ public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCa
                     Product product = new Product(resultSet.getInt("product_id"), resultSet.getString("name"), resultSet.getBigDecimal("price"), resultSet.getInt("category_id"), resultSet.getString("description"), resultSet.getString("subcategory"), resultSet.getInt("stock"), resultSet.getBoolean("featured"), resultSet.getString("image_url"));
 
                     ShoppingCartItem item = new ShoppingCartItem(product, resultSet.getInt("quantity"));
-                    cart.add(item);
+                    cart.put(resultSet.getInt("product_id"), item);
                 }
             }
 
@@ -61,9 +63,9 @@ public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCa
     }
 
     @Override
-    public ShoppingCart addProduct(Integer userId, Integer productId, Integer quantity) {
+    public void addProduct(Integer userId, Integer productId, Integer quantity) {
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO shopping_cart (user_id, product_id, quantity) VALUES (?, ?, ?);", Statement.RETURN_GENERATED_KEYS);) {
+             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO shopping_cart (user_id, product_id, quantity) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity);", Statement.RETURN_GENERATED_KEYS);) {
             preparedStatement.setInt(1, userId);
             preparedStatement.setInt(2, productId);
             preparedStatement.setInt(3, quantity);
@@ -81,8 +83,6 @@ public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCa
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        return null;
     }
 
     @Override
@@ -103,6 +103,7 @@ public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCa
         }
     }
 
+    /*
     @Override
     public void deleteCart(Integer userId, ShoppingCart shoppingCart) {
         try (Connection connection = dataSource.getConnection();
@@ -118,6 +119,8 @@ public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCa
             throw new RuntimeException(e);
         }
     }
+
+     */
 
     @Override
     public List<ShoppingCartItem> getItemsByUserId(Integer userId) {

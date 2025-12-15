@@ -66,7 +66,7 @@ public class MySqlProfileDaoImpl extends MySqlDaoBase implements ProfileDao
     }
 
     @Override
-    public void updateProfile(Integer userId, Profile profile) {
+    public Profile updateProfile(Integer userId, Profile profile) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("UPDATE profiles SET first_name = ?, last_name = ?, phone = ?, email = ?, address = ?, city = ?, state = ?, zip = ?" + " WHERE user_id = ?;")) {
 
@@ -87,6 +87,7 @@ public class MySqlProfileDaoImpl extends MySqlDaoBase implements ProfileDao
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return profile;
     }
 
 }

@@ -9,5 +9,5 @@ public interface ProfileDao
 {
     Profile create(Profile profile);
     Profile getByUserId(Integer userId);
-    void updateProfile(Integer userId, Profile profile);
+    Profile updateProfile(Integer userId, Profile profile);
 }
