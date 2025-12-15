@@ -42,52 +42,54 @@ public class AuthenticationController {
         this.profileDao = profileDao;
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginDto loginDto) {
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto loginDto) {
 
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
+        Authentication authentication = authenticationManagerBuilder
+                .getObject()
+                .authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                loginDto.getUsername(),
+                                loginDto.getPassword()
+                        )
+                );
 
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
         String jwt = tokenProvider.createToken(authentication, false);
 
-        try
-        {
-            User user = userDao.getByUserName(loginDto.getUsername());
+        User user = userDao.getByUserName(loginDto.getUsername());
 
-            if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
 
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER,
-                    "Bearer " + jwt);
-            return new ResponseEntity<>(new LoginResponseDto(jwt, user), httpHeaders, HttpStatus.OK);
-        }
-        catch(Exception ex)
-        {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return new ResponseEntity<>(
+                new LoginResponseDto(jwt, user),
+                headers,
+                HttpStatus.OK
+        );
     }
+
 
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<User> register(@Valid @RequestBody RegisterUserDto newUser) {
-            boolean exists = userDao.exists(newUser.getUsername());
-            if (exists)
-            {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Already Exists.");
-            }
+    @PostMapping("/register")
+    public User register(@RequestBody RegisterUserDto newUser) {
 
-            // create user
-            User user = userDao.create(new User(0, newUser.getUsername(), newUser.getPassword(), newUser.getRole()));
+        if (userDao.exists(newUser.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Already Exists.");
+        }
 
-            // create profile
-            Profile profile = new Profile();
-            profile.setUserId(user.getId());
-            profileDao.create(profile);
+        User user = userDao.create(
+                new User(0, newUser.getUsername(), newUser.getPassword(), newUser.getRole())
+        );
 
-            return new ResponseEntity<>(user, HttpStatus.CREATED);
+        Profile profile = new Profile();
+        profile.setUserId(user.getId());
+        profileDao.create(profile);
+
+        return user;
     }
+
 
 }
 

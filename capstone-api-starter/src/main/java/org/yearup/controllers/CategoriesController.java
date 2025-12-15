@@ -1,6 +1,7 @@
 package org.yearup.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -86,10 +87,10 @@ public class CategoriesController
     // add annotation to ensure that only an ADMIN can call this function
     @PutMapping("{categoryId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void updateCategory(@PathVariable int id, @RequestBody Category category)
+    public void updateCategory(@PathVariable int categoryId, @RequestBody Category category)
     {
         // update the category by id
-        categoryService.update(id, category);
+        categoryService.update(categoryId, category);
     }
 
 
@@ -97,9 +98,9 @@ public class CategoriesController
     // add annotation to ensure that only an ADMIN can call this function
     @DeleteMapping("{categoryId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void deleteCategory(@PathVariable int id)
+    public void deleteCategory(@PathVariable int categoryId)
     {
         // delete the category by id
-        categoryService.delete(id);
+        categoryService.delete(categoryId);
     }
 }

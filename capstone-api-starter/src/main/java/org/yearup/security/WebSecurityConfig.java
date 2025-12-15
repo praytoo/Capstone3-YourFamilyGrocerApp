@@ -49,28 +49,37 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * Configure security settings
-     * @param httpSecurity
+     * @param http
      * @throws Exception
      */
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                // we don't need CSRF because our token is invulnerable
+    protected void configure(HttpSecurity http) throws Exception {
+        http
                 .csrf().disable()
 
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
 
-                // create no session
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 .and()
+                .authorizeRequests()
+
+                .antMatchers(
+                        "/login",
+                        "/register",
+                        "/categories",
+                        "/products"
+                ).permitAll()
+
+                .anyRequest().authenticated()
+
+                .and()
                 .apply(securityConfigurerAdapter());
     }
-
     private JWTConfigurer securityConfigurerAdapter() {
         return new JWTConfigurer(tokenProvider);
     }
