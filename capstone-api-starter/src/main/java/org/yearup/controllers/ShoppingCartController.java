@@ -23,7 +23,7 @@ import java.util.List;
 // only logged-in users should have access to these actions
 @RestController
 @RequestMapping("cart")
-@PreAuthorize("hasRole('ROLE_USER')")
+@PreAuthorize("permitAll()")
 @CrossOrigin
 public class ShoppingCartController {
     // a shopping cart requires

@@ -1,7 +1,5 @@
 package org.yearup.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.math.BigDecimal;
 
 public class ShoppingCartItem
@@ -9,6 +7,24 @@ public class ShoppingCartItem
     private Product product;
     private int quantity = 1;
     private BigDecimal discountPercent = BigDecimal.ZERO;
+    private BigDecimal price;
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+    public ShoppingCartItem(int productId, int quantity) {
+        this.product = new Product();
+        this.product.setProductId(productId);
+        this.quantity = quantity;
+    }
+    public ShoppingCartItem(Product product, int quantity) {
+        this.product = product;
+        this.quantity = quantity;
+    }
 
     public Product getProduct()
     {
@@ -40,10 +56,8 @@ public class ShoppingCartItem
         this.discountPercent = discountPercent;
     }
 
-    @JsonIgnore
-    public int getProductId()
-    {
-        return this.product.getProductId();
+    public int getProductId() {
+        return product != null ? product.getProductId() : 0;
     }
 
     public BigDecimal getLineTotal()

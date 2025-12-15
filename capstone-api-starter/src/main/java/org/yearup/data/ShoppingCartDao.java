@@ -18,4 +18,6 @@ public interface ShoppingCartDao
     ShoppingCart addProduct(Integer userId, Integer productId, Integer quantity);
     void updateCart(Integer userId, Integer productId, ShoppingCartItem shoppingCartItem);
     void deleteCart(Integer userId, ShoppingCart shoppingCart);
+    List<ShoppingCartItem> getItemsByUserId(Integer userId);
+    void clearCart(Integer userId);
 }

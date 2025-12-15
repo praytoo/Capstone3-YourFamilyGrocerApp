@@ -10,6 +10,16 @@ public class ShoppingCart
     private Integer productId;
     private Integer quantity;
 
+    public ShoppingCart() {
+    }
+
+    public ShoppingCart(Integer userId, Integer productId, Integer quantity, Map<Integer, ShoppingCartItem> items) {
+        this.userId = userId;
+        this.productId = productId;
+        this.quantity = quantity;
+        this.items = items;
+    }
+
     public Integer getUserId() {
         return userId;
     }

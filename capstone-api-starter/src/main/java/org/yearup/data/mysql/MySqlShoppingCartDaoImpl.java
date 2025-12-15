@@ -2,14 +2,12 @@ package org.yearup.data.mysql;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.yearup.data.ShoppingCartDao;
 import org.yearup.models.Product;
 import org.yearup.models.ShoppingCart;
 import org.yearup.models.ShoppingCartItem;
 
 import javax.sql.DataSource;
-import java.security.Principal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,9 +49,7 @@ public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCa
                 while (resultSet.next()) {
                     Product product = new Product(resultSet.getInt("product_id"), resultSet.getString("name"), resultSet.getBigDecimal("price"), resultSet.getInt("category_id"), resultSet.getString("description"), resultSet.getString("subcategory"), resultSet.getInt("stock"), resultSet.getBoolean("featured"), resultSet.getString("image_url"));
 
-                    ShoppingCartItem item = new ShoppingCartItem();
-                    item.setProduct(product);
-                    item.setQuantity(resultSet.getInt("quantity"));
+                    ShoppingCartItem item = new ShoppingCartItem(product, resultSet.getInt("quantity"));
                     cart.add(item);
                 }
             }
@@ -109,6 +105,46 @@ public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCa
 
     @Override
     public void deleteCart(Integer userId, ShoppingCart shoppingCart) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM shopping_cart WHERE user_id = ?;")) {
+
+            preparedStatement.setInt(1, userId);
+
+            int rows = preparedStatement.executeUpdate();
+
+            System.out.println("Rows updated: " + rows);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<ShoppingCartItem> getItemsByUserId(Integer userId) {
+        List<ShoppingCartItem> cart = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT sc.user_id, sc.product_id, sc.quantity, p.product_id, p.name, p.price, p.category_id, p.description, p.subcategory, p.image_url, p.stock, p.featured FROM groceryapp.shopping_cart AS sc JOIN groceryapp.products AS p ON sc.product_id = p.product_id WHERE sc.user_id = ?;");
+        ) {
+            preparedStatement.setInt(1, userId);
+
+
+            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Product product = new Product(resultSet.getInt("product_id"), resultSet.getString("name"), resultSet.getBigDecimal("price"), resultSet.getInt("category_id"), resultSet.getString("description"), resultSet.getString("subcategory"), resultSet.getInt("stock"), resultSet.getBoolean("featured"), resultSet.getString("image_url"));
+
+                    ShoppingCartItem item = new ShoppingCartItem(product, resultSet.getInt("quantity"));
+                    cart.add(item);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return cart;
+    }
+
+    @Override
+    public void clearCart(Integer userId) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM shopping_cart WHERE user_id = ?;")) {
 
