@@ -12,6 +12,17 @@ public class Orders {
     private String zip;
     private Integer shippingAmount;
 
+    public Orders(ShoppingCart shoppingCart, Integer userId, Date date, String address, String city, String state, String zip, Integer shippingAmount) {
+        this.shoppingCart = shoppingCart;
+        this.userId = userId;
+        this.date = date;
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+        this.shippingAmount = shippingAmount;
+    }
+
     public Integer getUserId() {
         return userId;
     }

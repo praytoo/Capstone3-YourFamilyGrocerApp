@@ -49,9 +49,7 @@ public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCa
                 while (resultSet.next()) {
                     Product product = new Product(resultSet.getInt("product_id"), resultSet.getString("name"), resultSet.getBigDecimal("price"), resultSet.getInt("category_id"), resultSet.getString("description"), resultSet.getString("subcategory"), resultSet.getInt("stock"), resultSet.getBoolean("featured"), resultSet.getString("image_url"));
 
-                    ShoppingCartItem item = new ShoppingCartItem(resultSet.getInt("user_id"), product, resultSet.getInt("quantity"));
-                    item.setProduct(product);
-                    item.setQuantity(resultSet.getInt("quantity"));
+                    ShoppingCartItem item = new ShoppingCartItem(product, resultSet.getInt("quantity"));
                     cart.add(item);
                 }
             }
@@ -134,7 +132,7 @@ public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCa
                 while (resultSet.next()) {
                     Product product = new Product(resultSet.getInt("product_id"), resultSet.getString("name"), resultSet.getBigDecimal("price"), resultSet.getInt("category_id"), resultSet.getString("description"), resultSet.getString("subcategory"), resultSet.getInt("stock"), resultSet.getBoolean("featured"), resultSet.getString("image_url"));
 
-                    ShoppingCartItem item = new ShoppingCartItem(resultSet.getInt("user_id"), product, resultSet.getInt("quantity"));
+                    ShoppingCartItem item = new ShoppingCartItem(product, resultSet.getInt("quantity"));
                     cart.add(item);
                 }
             }

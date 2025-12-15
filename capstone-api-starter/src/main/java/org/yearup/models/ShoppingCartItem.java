@@ -1,7 +1,5 @@
 package org.yearup.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.math.BigDecimal;
 
 public class ShoppingCartItem
@@ -26,12 +24,9 @@ public class ShoppingCartItem
         this.price = price;
     }
 
-    public ShoppingCartItem(int userId, Product product, int quantity) {
+    public ShoppingCartItem(Product product, int quantity) {
         this.product = product;
         this.quantity = quantity;
-    }
-
-    public ShoppingCartItem(int userId, int productId, int quantity) {
     }
 
     public Product getProduct()
