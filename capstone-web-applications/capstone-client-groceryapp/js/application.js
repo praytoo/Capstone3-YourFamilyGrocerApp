@@ -125,3 +125,81 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadHome();
 });
+function showCheckout() {
+    const main = document.getElementById("main");
+    main.innerHTML = "";
+
+    const div = document.createElement("div");
+    div.classList.add("checkout-container");
+
+    const h2 = document.createElement("h2");
+    h2.innerText = "Checkout";
+    div.appendChild(h2);
+
+    const itemsDiv = document.createElement("div");
+
+    let total = 0;
+
+    cartService.cart.items.forEach(item => {
+        const lineTotal = item.product.price * item.quantity;
+        total += lineTotal;
+
+        const row = document.createElement("div");
+        row.innerText = `${item.product.name} x ${item.quantity} — $${lineTotal.toFixed(2)}`;
+        itemsDiv.appendChild(row);
+    });
+
+    div.appendChild(itemsDiv);
+
+    const totalDiv = document.createElement("div");
+    totalDiv.innerHTML = `<strong>Total:</strong> $${total.toFixed(2)}`;
+    div.appendChild(totalDiv);
+
+    const btn = document.createElement("button");
+    btn.innerText = "Place Order";
+    btn.addEventListener("click", placeOrder);
+    div.appendChild(btn);
+
+    main.appendChild(div);
+}
+
+async function loadCheckout() {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    const res = await fetch("/cart", {
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    });
+
+    if (!res.ok) return;
+
+    const cart = await res.json();
+    const itemsDiv = document.getElementById("checkout-items");
+    const totalSpan = document.getElementById("checkout-total");
+
+    let total = 0;
+    itemsDiv.innerHTML = "";
+
+    cart.items.forEach(item => {
+        const lineTotal = item.product.price * item.quantity;
+        total += lineTotal;
+
+        const div = document.createElement("div");
+        div.textContent = `${item.product.name} x ${item.quantity} — $${lineTotal.toFixed(2)}`;
+        itemsDiv.appendChild(div);
+    });
+
+    totalSpan.textContent = total.toFixed(2);
+}
+function placeOrder() {
+
+    alert("✅ Order placed!");
+
+    clearCart();
+
+    loadHome();
+
+}
+

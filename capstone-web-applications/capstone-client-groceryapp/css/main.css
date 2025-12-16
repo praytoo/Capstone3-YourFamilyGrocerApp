@@ -200,4 +200,30 @@ main > .content-form .cart-item
 {
     margin-bottom: 2px !important;
 }
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.checkout-container {
+    max-width: 600px;
+    margin: 40px auto;
+}
+
+.checkout-container h2 {
+    margin-bottom: 20px;
+}
+
+.checkout-container button {
+    margin-top: 20px;
+    padding: 12px;
+    width: 100%;
+    font-size: 16px;
+}
+
+.checkout-total {
+    margin-top: 16px;
+    font-size: 18px;
+}
+
 

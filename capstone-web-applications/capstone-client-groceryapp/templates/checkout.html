@@ -1,0 +1,19 @@
+<div class="checkout-container">
+    <h2>Checkout</h2>
+
+    <div id="checkout-items">
+        <!-- Items will be rendered here by renderCart() -->
+    </div>
+
+    <div class="checkout-total">
+        <h3>Total: $<span id="checkout-total">0.00</span></h3>
+    </div>
+
+    <button onclick="checkoutService.placeOrder()" class="btn-primary">
+        Place Order
+    </button>
+
+    <button onclick="loadHome()" class="btn-secondary">
+        Cancel
+    </button>
+</div>
