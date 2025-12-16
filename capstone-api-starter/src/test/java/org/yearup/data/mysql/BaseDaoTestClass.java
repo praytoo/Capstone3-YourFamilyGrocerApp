@@ -18,6 +18,10 @@ public abstract class BaseDaoTestClass
     @Autowired
     protected DataSource dataSource;
 
+    public BaseDaoTestClass(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     @AfterEach
     public void rollback() throws SQLException
     {

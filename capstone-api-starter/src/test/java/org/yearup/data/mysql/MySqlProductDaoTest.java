@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.yearup.models.Product;
 
+import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 
@@ -13,6 +14,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class MySqlProductDaoTest extends BaseDaoTestClass
 {
     private MySqlProductDaoImpl dao;
+
+    public MySqlProductDaoTest(DataSource dataSource) {
+        super(dataSource);
+    }
 
     @BeforeEach
     public void setup()
