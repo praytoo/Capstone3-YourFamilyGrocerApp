@@ -23,7 +23,7 @@ POST
 POST 
 - http://localhost:8080/products
   {
-  "productId": 63,
+  "productId": 69,
   "name": "Teriyaki Chicken",
   "price": 6.99,
   "categoryId": 1,
@@ -35,4 +35,4 @@ POST
   }
 5. delete a product
 DELETE
-- http://localhost:8080/products/63
+- http://localhost:8080/products/69
