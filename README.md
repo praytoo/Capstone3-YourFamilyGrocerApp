@@ -13,7 +13,7 @@ A full‑stack e‑commerce grocery application built as a **Spring Boot API cap
 - [Example JSON Requests](#-example-json-requests)
 - [Installation Run Instructions](#-installation-run-instructions)
 - [Interesting Code Snippet](#-interesting-code-snippet)
-- [Landing Pages and UML Diagram](#-landing-pages-and-uml-diagram)
+- [Landing Pages API Testing and UML Diagram](#-landing-pages-api-testing-and-uml-diagram)
 - [Author](#-author)
 ---
 
@@ -240,7 +240,7 @@ public Product addProduct(@RequestBody Product product)
 
 ---
 
-## 🖼️ Landing Pages and UML Diagram
+## 🖼️ Landing Pages API Testing and UML Diagram
 
 * Website Walk Through:
 ![Landing Page](imagesForReadMe/LandingPage.gif)
