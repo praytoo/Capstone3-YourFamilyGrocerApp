@@ -242,12 +242,14 @@ public Product addProduct(@RequestBody Product product)
 
 ## 🖼️ Screenshots
 
-> *Add screenshots here*
-
-* Login Page
-* Product Catalog
-* Shopping Cart
-* Checkout Page
+* Login Page:
+![Login](imagesForReadMe/login.png)
+* Product Catalog:
+![Product Catalog](imagesForReadMe/productsCatalog.png)
+* Shopping Cart:
+![Cart](imagesForReadMe/cart.png)
+* Checkout Page:
+![Checkout](imagesForReadMe/checkout.png)
 
 ---
 
