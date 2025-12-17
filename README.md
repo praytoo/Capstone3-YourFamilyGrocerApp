@@ -253,7 +253,7 @@ public Product addProduct(@RequestBody Product product)
 * Checkout Page:
 ![Checkout](imagesForReadMe/checkout.png)
 * UML Diagram:
-![UML Diagram](imagesProject/UMLDiagram.png)
+![UML Diagram](imagesForReadMe/UMLDiagram.png)
 
 ---
 
