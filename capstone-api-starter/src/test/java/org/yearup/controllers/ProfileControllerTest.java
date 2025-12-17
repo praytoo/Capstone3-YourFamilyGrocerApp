@@ -67,7 +67,7 @@ public class ProfileControllerTest {
         when(profileService.getByUserId(userId)).thenReturn(profile);
 
         // Act & Assert
-        mockMvc.perform(get("/profiles/10")
+        mockMvc.perform(get("/profile/10")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -84,7 +84,7 @@ public class ProfileControllerTest {
         when(profileService.getByUserId(userId)).thenReturn(profile);
 
         // Act & Assert
-        mockMvc.perform(get("/profiles")
+        mockMvc.perform(get("/profile")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
                 //.andExpect(jsonPath("$[0].userId").value("10"));
