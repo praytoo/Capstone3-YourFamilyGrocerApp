@@ -6,6 +6,7 @@ POST
 "password": "password"
 }
 2. search products
+   **ADD AUTHENTICATION TOKEN
 GET
 - http://localhost:8080/products?cat=1
 GET
