@@ -26,9 +26,10 @@ public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCa
     public ShoppingCart getByUserId(Integer userId) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM shopping_cart WHERE user_id = ?;");
-        ) { preparedStatement.setInt(1, userId);
+        ) {
+            preparedStatement.setInt(1, userId);
 
-            try(ResultSet resultSet = preparedStatement.executeQuery();) {
+            try (ResultSet resultSet = preparedStatement.executeQuery();) {
                 while (resultSet.next()) {
                     return new ShoppingCart(resultSet.getInt("user_id"), resultSet.getInt("product_id"), resultSet.getInt("quantity"));
                 }
@@ -45,11 +46,11 @@ public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCa
         Map<Integer, ShoppingCartItem> cart = new HashMap<>();
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT sc.quantity, p.product_id, p.name, p.price, p.category_id, p.description, p.subcategory, p.image_url, p.stock, p.featured FROM groceryapp.shopping_cart AS sc JOIN groceryapp.products AS p ON sc.product_id = p.product_id WHERE sc.user_id = ?;");
-             ) {
+        ) {
             preparedStatement.setInt(1, userId);
 
 
-            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     Product product = new Product(resultSet.getInt("product_id"), resultSet.getString("name"), resultSet.getBigDecimal("price"), resultSet.getInt("category_id"), resultSet.getString("description"), resultSet.getString("subcategory"), resultSet.getInt("stock"), resultSet.getBoolean("featured"), resultSet.getString("image_url"));
 
@@ -136,7 +137,7 @@ public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCa
             preparedStatement.setInt(1, userId);
 
 
-            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     Product product = new Product(resultSet.getInt("product_id"), resultSet.getString("name"), resultSet.getBigDecimal("price"), resultSet.getInt("category_id"), resultSet.getString("description"), resultSet.getString("subcategory"), resultSet.getInt("stock"), resultSet.getBoolean("featured"), resultSet.getString("image_url"));
 

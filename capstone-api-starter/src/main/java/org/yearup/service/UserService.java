@@ -18,27 +18,27 @@ public class UserService {
 
     //methods that the user dao implements
 
-    public List<User> getAll(){
+    public List<User> getAll() {
         return userDao.getAll();
     }
 
-    public User getUserById(int userId){
+    public User getUserById(int userId) {
         return userDao.getUserById(userId);
     }
 
-    public User getByUserName(String username){
+    public User getByUserName(String username) {
         return userDao.getByUserName(username);
     }
 
-    public int getIdByUsername(String username){
+    public int getIdByUsername(String username) {
         return userDao.getIdByUsername(username);
     }
 
-    public User create(User user){
+    public User create(User user) {
         return userDao.create(user);
     }
 
-    public boolean exists(String username){
+    public boolean exists(String username) {
         return userDao.exists(username);
     }
 }

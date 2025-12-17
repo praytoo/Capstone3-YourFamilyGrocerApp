@@ -1,20 +1,17 @@
 package org.yearup.models;
 
-public class Category
-{
+public class Category {
     //properties
     private int categoryId;
     private String name;
     private String description;
 
     //empty constructor
-    public Category()
-    {
+    public Category() {
     }
 
     //constructor
-    public Category(int categoryId, String name, String description)
-    {
+    public Category(int categoryId, String name, String description) {
         this.categoryId = categoryId;
         this.name = name;
         this.description = description;
@@ -22,33 +19,27 @@ public class Category
 
     //getters and setters
 
-    public int getCategoryId()
-    {
+    public int getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(int categoryId)
-    {
+    public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description)
-    {
+    public void setDescription(String description) {
         this.description = description;
     }
 }

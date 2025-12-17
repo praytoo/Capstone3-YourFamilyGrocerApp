@@ -11,23 +11,19 @@ import javax.sql.DataSource;
 import java.sql.*;
 
 @Repository
-public class MySqlProfileDaoImpl extends MySqlDaoBase implements ProfileDao
-{
+public class MySqlProfileDaoImpl extends MySqlDaoBase implements ProfileDao {
     @Autowired
-    public MySqlProfileDaoImpl(DataSource dataSource)
-    {
+    public MySqlProfileDaoImpl(DataSource dataSource) {
         super(dataSource);
     }
 
     //overridden method that creates a new profile
     @Override
-    public Profile create(Profile profile)
-    {
+    public Profile create(Profile profile) {
         String sql = "INSERT INTO profiles (user_id, first_name, last_name, phone, email, address, city, state, zip) " +
                 " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try(Connection connection = getConnection())
-        {
+        try (Connection connection = getConnection()) {
             PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1, profile.getUserId());
             ps.setString(2, profile.getFirstName());
@@ -42,9 +38,7 @@ public class MySqlProfileDaoImpl extends MySqlDaoBase implements ProfileDao
             ps.executeUpdate();
 
             return profile;
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -54,9 +48,10 @@ public class MySqlProfileDaoImpl extends MySqlDaoBase implements ProfileDao
     public Profile getByUserId(Integer userId) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM profiles WHERE user_id = ?;");
-        ) { preparedStatement.setInt(1, userId);
+        ) {
+            preparedStatement.setInt(1, userId);
 
-            try(ResultSet resultSet = preparedStatement.executeQuery();) {
+            try (ResultSet resultSet = preparedStatement.executeQuery();) {
                 while (resultSet.next()) {
                     return new Profile(resultSet.getInt("user_id"), resultSet.getString("first_name"), resultSet.getString("last_name"), resultSet.getString("phone"), resultSet.getString("email"), resultSet.getString("address"), resultSet.getString("city"), resultSet.getString("state"), resultSet.getString("zip"));
                 }

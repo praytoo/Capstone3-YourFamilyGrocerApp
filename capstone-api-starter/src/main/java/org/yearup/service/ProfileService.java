@@ -17,11 +17,15 @@ public class ProfileService {
 
     //methods that the profile dao implements
 
-    public Profile create(Profile profile){
+    public Profile create(Profile profile) {
         return profileDao.create(profile);
     }
-    public Profile getByUserId(Integer userId){
+
+    public Profile getByUserId(Integer userId) {
         return profileDao.getByUserId(userId);
     }
-    public Profile updateProfile(Integer userId, Profile profile) {return profileDao.updateProfile(userId, profile);}
+
+    public Profile updateProfile(Integer userId, Profile profile) {
+        return profileDao.updateProfile(userId, profile);
+    }
 }

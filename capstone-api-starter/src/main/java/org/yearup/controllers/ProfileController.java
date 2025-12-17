@@ -26,9 +26,9 @@ public class ProfileController {
 
     //get user by id
     @GetMapping("/id/{userId}")
-    public ResponseEntity<Profile> getByUserId(@PathVariable Integer userId){
+    public ResponseEntity<Profile> getByUserId(@PathVariable Integer userId) {
         Profile profile = profileService.getByUserId(userId);
-        if (profile == null){
+        if (profile == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(profile);
@@ -53,7 +53,7 @@ public class ProfileController {
 
     //update profile by user id in url
     @PutMapping("{userId}")
-    public void updateProfile(@PathVariable Integer userId, @RequestBody Profile profile){
+    public void updateProfile(@PathVariable Integer userId, @RequestBody Profile profile) {
         profileService.updateProfile(userId, profile);
     }
 

@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class MySqlProductDaoImpl extends MySqlDaoBase implements ProductDao
-{
+public class MySqlProductDaoImpl extends MySqlDaoBase implements ProductDao {
 
     @Autowired
     public MySqlProductDaoImpl(DataSource dataSource) {
@@ -23,35 +22,34 @@ public class MySqlProductDaoImpl extends MySqlDaoBase implements ProductDao
 
     //searching the db for products that meet the filtering value
     @Override
-    public List<Product> search(Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String subCategory)
-    {
+    public List<Product> search(Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String subCategory) {
         StringBuilder query = new StringBuilder("SELECT * FROM products WHERE 1=1");
         List<Object> params = new ArrayList<>();
-        if(categoryId != null){
+        if (categoryId != null) {
             query.append(" AND category_id = ?");
             params.add(categoryId);
         }
-        if(minPrice != null){
+        if (minPrice != null) {
             query.append(" AND price >= ?");
             params.add(minPrice);
         }
-        if(maxPrice != null){
+        if (maxPrice != null) {
             query.append(" AND price <= ?");
             params.add(maxPrice);
         }
-        if(subCategory != null && !subCategory.isBlank()){
+        if (subCategory != null && !subCategory.isBlank()) {
             query.append(" AND subcategory = ?");
             params.add(subCategory);
         }
         List<Product> products = new ArrayList<>();
-        try(Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
         ) {
-            for (int i = 0; i < params.size(); i++){
+            for (int i = 0; i < params.size(); i++) {
                 preparedStatement.setObject(i + 1, params.get(i));
             }
 
-            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     int productId = resultSet.getInt("product_id");
                     String name = resultSet.getString("name");
@@ -68,7 +66,7 @@ public class MySqlProductDaoImpl extends MySqlDaoBase implements ProductDao
                 }
             }
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return products;
@@ -76,28 +74,23 @@ public class MySqlProductDaoImpl extends MySqlDaoBase implements ProductDao
 
     //overridden method to list products by category id
     @Override
-    public List<Product> listByCategoryId(int categoryId)
-    {
+    public List<Product> listByCategoryId(int categoryId) {
         List<Product> products = new ArrayList<>();
 
         String sql = "SELECT * FROM products " +
-                    " WHERE category_id = ? ";
+                " WHERE category_id = ? ";
 
-        try (Connection connection = getConnection())
-        {
+        try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, categoryId);
 
             ResultSet row = statement.executeQuery();
 
-            while (row.next())
-            {
+            while (row.next()) {
                 Product product = mapRow(row);
                 products.add(product);
             }
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -106,23 +99,18 @@ public class MySqlProductDaoImpl extends MySqlDaoBase implements ProductDao
 
     //overridden method to get products by product id
     @Override
-    public Product getById(int productId)
-    {
+    public Product getById(int productId) {
         String sql = "SELECT * FROM products WHERE product_id = ?";
-        try (Connection connection = getConnection())
-        {
+        try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, productId);
 
             ResultSet row = statement.executeQuery();
 
-            if (row.next())
-            {
+            if (row.next()) {
                 return mapRow(row);
             }
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return null;
@@ -130,14 +118,12 @@ public class MySqlProductDaoImpl extends MySqlDaoBase implements ProductDao
 
     //overridden method that inserts a new product into the db
     @Override
-    public Product create(Product product)
-    {
+    public Product create(Product product) {
 
         String sql = "INSERT INTO products(name, price, category_id, description, subcategory, image_url, stock, featured) " +
                 " VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 
-        try (Connection connection = getConnection())
-        {
+        try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             statement.setString(1, product.getName());
             statement.setBigDecimal(2, product.getPrice());
@@ -162,9 +148,7 @@ public class MySqlProductDaoImpl extends MySqlDaoBase implements ProductDao
                     return getById(orderId);
                 }
             }
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return null;
@@ -172,8 +156,7 @@ public class MySqlProductDaoImpl extends MySqlDaoBase implements ProductDao
 
     //overridden method that updates a product by product id
     @Override
-    public void update(int productId, Product product)
-    {
+    public void update(int productId, Product product) {
         String sql = "UPDATE products" +
                 " SET name = ? " +
                 "   , price = ? " +
@@ -185,8 +168,7 @@ public class MySqlProductDaoImpl extends MySqlDaoBase implements ProductDao
                 "   , featured = ? " +
                 " WHERE product_id = ?;";
 
-        try (Connection connection = getConnection())
-        {
+        try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, product.getName());
             statement.setBigDecimal(2, product.getPrice());
@@ -199,37 +181,30 @@ public class MySqlProductDaoImpl extends MySqlDaoBase implements ProductDao
             statement.setInt(9, productId);
 
             statement.executeUpdate();
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     //overridden method that deletes a product by product id
     @Override
-    public void delete(int productId)
-    {
+    public void delete(int productId) {
 
         String sql = "DELETE FROM products " +
                 " WHERE product_id = ?;";
 
-        try (Connection connection = getConnection())
-        {
+        try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, productId);
 
             statement.executeUpdate();
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     //method that maps a row for a product
-    protected static Product mapRow(ResultSet row) throws SQLException
-    {
+    protected static Product mapRow(ResultSet row) throws SQLException {
         int productId = row.getInt("product_id");
         String name = row.getString("name");
         BigDecimal price = row.getBigDecimal("price");

@@ -16,13 +16,12 @@ import java.util.List;
 
 // add the annotations to make this a REST controller
 // add the annotation to make this controller the endpoint for the following url
-    // http://localhost:8080/categories
+// http://localhost:8080/categories
 // add annotation to allow cross site origin requests
 @RestController
 @RequestMapping("categories")
 @CrossOrigin
-public class CategoriesController
-{
+public class CategoriesController {
     private CategoryService categoryService;
     private ProductService productService;
 
@@ -39,7 +38,7 @@ public class CategoriesController
     public ResponseEntity<List<Category>> getAll(@RequestParam(required = false) String name) {
         // find and return all categories
         List<Category> category = categoryService.getAllCategories(name);
-        if (category == null){
+        if (category == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(category);
@@ -50,7 +49,7 @@ public class CategoriesController
     public ResponseEntity<Category> getById(@PathVariable int id) {
         // get the category by id
         Category category = categoryService.getById(id);
-        if (category == null){
+        if (category == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(category);
@@ -59,11 +58,10 @@ public class CategoriesController
     // the url to return all products in category 1 would look like this
     // https://localhost:8080/categories/1/products
     @GetMapping("{categoryId}/products")
-    public ResponseEntity<List<Product>> getProductsByCategoryId(@PathVariable int categoryId)
-    {
+    public ResponseEntity<List<Product>> getProductsByCategoryId(@PathVariable int categoryId) {
         // get a list of product by categoryId
         List<Product> product = productService.listByCategoryId(categoryId);
-        if (product == null){
+        if (product == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(product);
@@ -73,11 +71,10 @@ public class CategoriesController
     // add annotation to ensure that only an ADMIN can call this function
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Category> addCategory(@RequestBody Category category)
-    {
+    public ResponseEntity<Category> addCategory(@RequestBody Category category) {
         // insert the category
         Category category1 = categoryService.create(category);
-        if (category1 == null){
+        if (category1 == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(category1);
@@ -87,8 +84,7 @@ public class CategoriesController
     // add annotation to ensure that only an ADMIN can call this function
     @PutMapping("{categoryId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void updateCategory(@PathVariable int categoryId, @RequestBody Category category)
-    {
+    public void updateCategory(@PathVariable int categoryId, @RequestBody Category category) {
         // update the category by id
         categoryService.update(categoryId, category);
     }
@@ -98,8 +94,7 @@ public class CategoriesController
     // add annotation to ensure that only an ADMIN can call this function
     @DeleteMapping("{categoryId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void deleteCategory(@PathVariable int categoryId)
-    {
+    public void deleteCategory(@PathVariable int categoryId) {
         // delete the category by id
         categoryService.delete(categoryId);
     }

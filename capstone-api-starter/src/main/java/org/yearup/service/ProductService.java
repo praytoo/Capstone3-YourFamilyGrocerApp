@@ -19,22 +19,27 @@ public class ProductService {
 
     //methods that the product dao implements
 
-    public List<Product> search(Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String subCategory){
+    public List<Product> search(Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String subCategory) {
         return productDao.search(categoryId, minPrice, maxPrice, subCategory);
     }
-    public List<Product> listByCategoryId(int categoryId){
+
+    public List<Product> listByCategoryId(int categoryId) {
         return productDao.listByCategoryId(categoryId);
     }
-    public Product getById(int productId){
+
+    public Product getById(int productId) {
         return productDao.getById(productId);
     }
-    public Product create(Product product){
+
+    public Product create(Product product) {
         return productDao.create(product);
     }
-    public void update(int productId, Product product){
+
+    public void update(int productId, Product product) {
         productDao.update(productId, product);
     }
-    public void delete(int productId){
+
+    public void delete(int productId) {
         productDao.delete(productId);
     }
 }

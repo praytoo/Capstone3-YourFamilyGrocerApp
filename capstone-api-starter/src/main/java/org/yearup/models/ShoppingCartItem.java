@@ -2,13 +2,15 @@ package org.yearup.models;
 
 import java.math.BigDecimal;
 
-public class ShoppingCartItem
-{
+public class ShoppingCartItem {
     //properties
     private Product product;
     private int quantity = 1;
     private BigDecimal discountPercent = BigDecimal.ZERO;
     private BigDecimal price;
+
+    public ShoppingCartItem() {
+    }
 
     public BigDecimal getPrice() {
         return price;
@@ -24,6 +26,7 @@ public class ShoppingCartItem
         this.product.setProductId(productId);
         this.quantity = quantity;
     }
+
     //constructor
     public ShoppingCartItem(Product product, int quantity) {
         this.product = product;
@@ -31,33 +34,27 @@ public class ShoppingCartItem
     }
 
     //getters and setters
-    public Product getProduct()
-    {
+    public Product getProduct() {
         return product;
     }
 
-    public void setProduct(Product product)
-    {
+    public void setProduct(Product product) {
         this.product = product;
     }
 
-    public int getQuantity()
-    {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity)
-    {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
-    public BigDecimal getDiscountPercent()
-    {
+    public BigDecimal getDiscountPercent() {
         return discountPercent;
     }
 
-    public void setDiscountPercent(BigDecimal discountPercent)
-    {
+    public void setDiscountPercent(BigDecimal discountPercent) {
         this.discountPercent = discountPercent;
     }
 
@@ -65,8 +62,7 @@ public class ShoppingCartItem
         return product != null ? product.getProductId() : 0;
     }
 
-    public BigDecimal getLineTotal()
-    {
+    public BigDecimal getLineTotal() {
         BigDecimal basePrice = product.getPrice();
         BigDecimal quantity = new BigDecimal(this.quantity);
 

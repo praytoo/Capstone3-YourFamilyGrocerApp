@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class MySqlCategoryDaoImpl extends MySqlDaoBase implements CategoryDao
-{
+public class MySqlCategoryDaoImpl extends MySqlDaoBase implements CategoryDao {
     @Autowired
     public MySqlCategoryDaoImpl(DataSource dataSource) {
         super(dataSource);
@@ -25,19 +24,19 @@ public class MySqlCategoryDaoImpl extends MySqlDaoBase implements CategoryDao
     public List<Category> getAllCategories(String name) {
         StringBuilder query = new StringBuilder("SELECT * FROM categories WHERE 1=1");
         List<Object> params = new ArrayList<>();
-        if(name != null){
+        if (name != null) {
             query.append(" AND name = ?");
             params.add(name);
         }
         List<Category> categories = new ArrayList<>();
-        try(Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
         ) {
-            for (int i = 0; i < params.size(); i++){
+            for (int i = 0; i < params.size(); i++) {
                 preparedStatement.setObject(i + 1, params.get(i));
             }
 
-            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     String name2 = resultSet.getString("name");
                     int categoryId = resultSet.getInt("category_id");
@@ -47,7 +46,7 @@ public class MySqlCategoryDaoImpl extends MySqlDaoBase implements CategoryDao
                 }
             }
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return categories;
@@ -55,13 +54,13 @@ public class MySqlCategoryDaoImpl extends MySqlDaoBase implements CategoryDao
 
     //overridden method for get categories by id
     @Override
-    public Category getById(int categoryId)
-    {
+    public Category getById(int categoryId) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM categories WHERE category_id = ?;");
-        ) { preparedStatement.setInt(1, categoryId);
+        ) {
+            preparedStatement.setInt(1, categoryId);
 
-            try(ResultSet resultSet = preparedStatement.executeQuery();) {
+            try (ResultSet resultSet = preparedStatement.executeQuery();) {
                 while (resultSet.next()) {
                     return new Category(resultSet.getInt("category_id"), resultSet.getString("name"), resultSet.getString("description"));
                 }
@@ -101,8 +100,7 @@ public class MySqlCategoryDaoImpl extends MySqlDaoBase implements CategoryDao
 
     //overridden method to update categories
     @Override
-    public void update(int categoryId, Category category)
-    {
+    public void update(int categoryId, Category category) {
         // update category
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("UPDATE categories SET Name = ?, Description = ?" + "WHERE category_id = ?;")) {
@@ -139,14 +137,12 @@ public class MySqlCategoryDaoImpl extends MySqlDaoBase implements CategoryDao
     }
 
     //method to map a category row
-    private Category mapRow(ResultSet row) throws SQLException
-    {
+    private Category mapRow(ResultSet row) throws SQLException {
         int categoryId = row.getInt("category_id");
         String name = row.getString("name");
         String description = row.getString("description");
 
-        Category category = new Category()
-        {{
+        Category category = new Category() {{
             setCategoryId(categoryId);
             setName(name);
             setDescription(description);

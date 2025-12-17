@@ -26,13 +26,13 @@ public class OrderService {
 
     //methods that the order dao implements
 
-    public Orders checkOutOrder(User user){
+    public Orders checkOutOrder(User user) {
         List<ShoppingCartItem> cartItems = shoppingCartDao.getItemsByUserId(user.getId());
-        if (cartItems.isEmpty()){
+        if (cartItems.isEmpty()) {
             throw new RuntimeException("Cart is empty");
         }
         Integer orderId = orderDao.createOrder(user.getId());
-        for (ShoppingCartItem item : cartItems){
+        for (ShoppingCartItem item : cartItems) {
             orderDao.addOrderLineItem(orderId, item);
         }
         shoppingCartDao.clearCart(user.getId());
