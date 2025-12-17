@@ -245,7 +245,7 @@ public Product addProduct(@RequestBody Product product)
 * Website Walk Through:
 ![Landing Page](imagesForReadMe/LandingPage.gif)
 * API Testing:
-![API Testing](imagesForReadMe/APITesting.gif)
+![API Testing](imagesForReadMe/APITesting2.gif)
 * Login Page:
 ![Login](imagesForReadMe/login.png)
 * Product Catalog:
