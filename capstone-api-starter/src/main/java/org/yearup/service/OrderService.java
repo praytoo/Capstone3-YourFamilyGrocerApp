@@ -24,6 +24,8 @@ public class OrderService {
         this.userDao = userDao;
     }
 
+    //methods that the order dao implements
+
     public Orders checkOutOrder(User user){
         List<ShoppingCartItem> cartItems = shoppingCartDao.getItemsByUserId(user.getId());
         if (cartItems.isEmpty()){

@@ -17,6 +17,8 @@ public class ProductService {
         this.productDao = productDao;
     }
 
+    //methods that the product dao implements
+
     public List<Product> search(Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String subCategory){
         return productDao.search(categoryId, minPrice, maxPrice, subCategory);
     }

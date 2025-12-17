@@ -14,6 +14,7 @@ import java.util.Map;
 @Component
 public interface ShoppingCartDao
 {
+    //methods to be overridden in ShoppingCartDaoImpl
     ShoppingCart getByUserId(Integer userId);
     // add additional method signatures here
     Map<Integer, ShoppingCartItem> getCart(Integer userId);

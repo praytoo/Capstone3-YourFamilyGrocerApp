@@ -17,6 +17,7 @@ public class CategoryService {
         this.categoryDao = categoryDao;
     }
 
+    //methods that the category dao implements
     public List<Category> getAllCategories(String name){
         return categoryDao.getAllCategories(name);
     }

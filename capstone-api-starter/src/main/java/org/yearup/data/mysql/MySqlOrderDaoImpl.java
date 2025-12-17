@@ -18,6 +18,8 @@ public class MySqlOrderDaoImpl extends MySqlDaoBase implements OrderDao {
     public MySqlOrderDaoImpl(DataSource dataSource) {
         super(dataSource);
     }
+
+    //overridden method to create a new order
     @Override
     public Integer createOrder(Integer userId) {
         try (Connection connection = dataSource.getConnection();
@@ -41,6 +43,7 @@ public class MySqlOrderDaoImpl extends MySqlDaoBase implements OrderDao {
         return userId;
     }
 
+    //overridden method to create an order line item with every new order
     @Override
     public void addOrderLineItem(Integer orderId, ShoppingCartItem item) {
         try (Connection connection = dataSource.getConnection();

@@ -9,6 +9,7 @@ import java.util.Set;
 
 public class User {
 
+    //properties
    private int id;
    private String username;
    @JsonIgnore
@@ -21,6 +22,7 @@ public class User {
       this.activated = true;
    }
 
+   //constructor
    public User(int id, String username, String password, String authorities) {
       this.id = id;
       this.username = username;
@@ -29,6 +31,7 @@ public class User {
       this.activated = true;
    }
 
+   //getters and setters
    public int getId() {
       return id;
    }
@@ -76,12 +79,14 @@ public class User {
       }
    }
 
+   //method add role
    public void addRole(String role)
    {
       String authority = role.contains("ROLE_") ? role : "ROLE_" + role;
       this.authorities.add(new Authority(authority));
    }
 
+   //overridden equals method for asserting a username and password
    @Override
    public boolean equals(Object o) {
       if (this == o) return true;
@@ -94,11 +99,13 @@ public class User {
               Objects.equals(authorities, user.authorities);
    }
 
+   //hash code user object returned
    @Override
    public int hashCode() {
       return Objects.hash(id, username, password, activated, authorities);
    }
 
+   //to string method for aesthetic printing
    @Override
    public String toString() {
       return "User{" +
@@ -109,6 +116,7 @@ public class User {
               '}';
    }
 
+   //json ignored get role method
    @JsonIgnore
    public String getRole()
    {

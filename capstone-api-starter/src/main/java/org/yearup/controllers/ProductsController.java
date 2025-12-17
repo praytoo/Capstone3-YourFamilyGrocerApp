@@ -24,6 +24,7 @@ public class ProductsController
         this.productService = productService;
     }
 
+    //search method
     @GetMapping("")
     @PreAuthorize("permitAll()")
     public List<Product> search(@RequestParam(name="cat", required = false) Integer categoryId,
@@ -42,6 +43,7 @@ public class ProductsController
         return productService.search(categoryId, min, max, subCategory);
     }
 
+    //get by id search
     @GetMapping("{id}")
     @PreAuthorize("permitAll()")
     public Product getById(@PathVariable int id )
@@ -61,6 +63,8 @@ public class ProductsController
         }
     }
 
+    //add product
+    //only admin can use this function
     @PostMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Product addProduct(@RequestBody Product product)
@@ -75,12 +79,16 @@ public class ProductsController
         }
     }
 
+    //update product
+    //only admin can use this function
     @PutMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void updateProduct(@PathVariable int id, @RequestBody Product product) {
             productService.update(id, product);
     }
 
+    //delete product
+    //only admin can use this function
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteProduct(@PathVariable int id)

@@ -24,6 +24,7 @@ public class ProfileController {
         this.userService = userService;
     }
 
+    //get user by id
     @GetMapping("/id/{userId}")
     public ResponseEntity<Profile> getByUserId(@PathVariable Integer userId){
         Profile profile = profileService.getByUserId(userId);
@@ -33,6 +34,7 @@ public class ProfileController {
         return ResponseEntity.ok(profile);
     }
 
+    //get profile
     @GetMapping
     public ResponseEntity<Profile> getProfile(Principal principal) {
 
@@ -49,11 +51,13 @@ public class ProfileController {
     }
 
 
+    //update profile by user id in url
     @PutMapping("{userId}")
     public void updateProfile(@PathVariable Integer userId, @RequestBody Profile profile){
         profileService.updateProfile(userId, profile);
     }
 
+    //update profile second method
     @PutMapping
     public ResponseEntity<Profile> updateProfile(Principal principal, @RequestBody Profile profile) {
         String username = principal.getName();

@@ -9,6 +9,7 @@ import java.util.List;
 @Component
 public interface ProductDao
 {
+    //methods to be overridden in ProductDaoImpl
     List<Product> search(Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String subCategory);
     List<Product> listByCategoryId(int categoryId);
     Product getById(int productId);

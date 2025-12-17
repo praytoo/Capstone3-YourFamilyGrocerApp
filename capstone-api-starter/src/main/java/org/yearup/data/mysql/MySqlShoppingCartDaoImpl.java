@@ -21,6 +21,7 @@ public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCa
         super(dataSource);
     }
 
+    //overridden method that gets a shopping cart by user id
     @Override
     public ShoppingCart getByUserId(Integer userId) {
         try (Connection connection = dataSource.getConnection();
@@ -38,6 +39,7 @@ public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCa
         return null;
     }
 
+    //overridden method that gets shopping cart items
     @Override
     public Map<Integer, ShoppingCartItem> getCart(Integer userId) {
         Map<Integer, ShoppingCartItem> cart = new HashMap<>();
@@ -62,6 +64,7 @@ public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCa
         return cart;
     }
 
+    //overridden method that adds a new product to cart
     @Override
     public void addProduct(Integer userId, Integer productId, Integer quantity) {
         try (Connection connection = dataSource.getConnection();
@@ -85,6 +88,7 @@ public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCa
         }
     }
 
+    //overridden method that updates user's cart
     @Override
     public void updateCart(Integer userId, Integer productId, ShoppingCartItem shoppingCartItem) {
         try (Connection connection = dataSource.getConnection();
@@ -122,6 +126,7 @@ public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCa
 
      */
 
+    //overridden method that gets shopping cart items by user id
     @Override
     public List<ShoppingCartItem> getItemsByUserId(Integer userId) {
         List<ShoppingCartItem> cart = new ArrayList<>();
@@ -146,6 +151,7 @@ public class MySqlShoppingCartDaoImpl extends MySqlDaoBase implements ShoppingCa
         return cart;
     }
 
+    //overridden method that clears cart by user id
     @Override
     public void clearCart(Integer userId) {
         try (Connection connection = dataSource.getConnection();

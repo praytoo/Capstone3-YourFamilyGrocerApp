@@ -19,6 +19,7 @@ public class MySqlProfileDaoImpl extends MySqlDaoBase implements ProfileDao
         super(dataSource);
     }
 
+    //overridden method that creates a new profile
     @Override
     public Profile create(Profile profile)
     {
@@ -48,6 +49,7 @@ public class MySqlProfileDaoImpl extends MySqlDaoBase implements ProfileDao
         }
     }
 
+    //overridden method that gets a profile by user id
     @Override
     public Profile getByUserId(Integer userId) {
         try (Connection connection = dataSource.getConnection();
@@ -65,6 +67,7 @@ public class MySqlProfileDaoImpl extends MySqlDaoBase implements ProfileDao
         return null;
     }
 
+    //overridden method that updates a profile based on user id
     @Override
     public Profile updateProfile(Integer userId, Profile profile) {
         try (Connection connection = dataSource.getConnection();

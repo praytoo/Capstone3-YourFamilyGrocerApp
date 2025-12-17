@@ -82,9 +82,7 @@ public class ProductsControllerTest {
         mockMvc.perform(get("/products")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-                //.andExpect(jsonPath("$", hasSize(2)))
-                //.andExpect(jsonPath("$[0].title").value("Task 1"))
-                //.andExpect(jsonPath("$[1].title").value("Task 2"));
+                //.andExpect(jsonPath("$", hasSize(2)));
     }
 
     @DisplayName("Proves getByID endpoint is wired correctly")
@@ -92,10 +90,9 @@ public class ProductsControllerTest {
     public void getById() throws Exception{
         // Arrange
         Product product = new Product();
-        product.setProductId(1);
-        product.setName("Organic Bananas");
+        Integer productId = 1;
 
-        when(productService.getById(1)).thenReturn(product);
+        when(productService.getById(productId)).thenReturn(product);
 
         // Act & Assert
         mockMvc.perform(get("/products/1")
@@ -103,7 +100,6 @@ public class ProductsControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
                 //.andExpect(jsonPath("$.productId").value(1))
-                //.andExpect(jsonPath("$.name").value("Organic Bananas"));
     }
 
 }

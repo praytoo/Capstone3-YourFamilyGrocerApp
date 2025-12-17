@@ -57,37 +57,34 @@ public class CategoriesControllerTest {
     @DisplayName("Test to see if getById is wired correctly")
     @Test
     public void getById() throws Exception{
+        // Arrange
         Category category = new Category();
-        category.setCategoryId(1);
-        category.setName("Fresh Produce");
+        Integer categoryId = 1;
 
-        when(categoryService.getById(1)).thenReturn(category);
+        when(categoryService.getById(categoryId)).thenReturn(category);
 
         // Act & Assert
         mockMvc.perform(get("/categories/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
-        //.andExpect(jsonPath("$.productId").value(1))
-        //.andExpect(jsonPath("$.name").value("Organic Bananas"));
+        //.andExpect(jsonPath("$.categoryId").value(1))
     }
 
     @DisplayName("Testing getProductsByCategoryId wiring")
     @Test
     public void getProductsByCategoryId() throws Exception {
-        Category category = new Category();
-        category.setCategoryId(1);
-        category.setName("Fresh Produce");
+        // Arrange
+        Integer categoryId = 1;
         List<Product> product = new ArrayList<>();
 
-        when(productService.listByCategoryId(1)).thenReturn(product);
+        when(productService.listByCategoryId(categoryId)).thenReturn(product);
 
         // Act & Assert
         mockMvc.perform(get("/categories/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
-        //.andExpect(jsonPath("$.productId").value(1))
-        //.andExpect(jsonPath("$.name").value("Organic Bananas"));
+        //.andExpect(jsonPath("$.categoryId").value(1))
     }
 }

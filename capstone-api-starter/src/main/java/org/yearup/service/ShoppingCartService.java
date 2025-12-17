@@ -24,6 +24,8 @@ public class ShoppingCartService {
         this.userService = userService;
     }
 
+    //methods that the shopping cart dao implements
+
     public ShoppingCart getByUserId(Integer userId){
         return shoppingCartDao.getByUserId(userId);
     }

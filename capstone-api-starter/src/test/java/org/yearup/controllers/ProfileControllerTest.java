@@ -25,6 +25,7 @@ import java.util.List;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = ProfileController.class, excludeAutoConfiguration = WebSecurityConfig.class)
@@ -61,23 +62,24 @@ public class ProfileControllerTest {
     public void getByUserId() throws Exception {
         // Arrange
         Profile profile = new Profile();
-        profile.setUserId(10);
+        Integer userId = 10;
 
-        when(profileService.getByUserId(10)).thenReturn(profile);
+        when(profileService.getByUserId(userId)).thenReturn(profile);
 
         // Act & Assert
         mockMvc.perform(get("/profiles/10")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
-        //.andExpect(jsonPath("$.productId").value(1))
-        //.andExpect(jsonPath("$.name").value("Organic Bananas"));
+        //.andExpect(jsonPath("$.userId").value(10))
     }
 
     @DisplayName("Checking if getProfile is wired correctly")
     @Test
     public void getProfile() throws Exception{
+        // Arrange
         Profile profile = new Profile();
+        Integer userId = 10;
 
         when(profileService.getByUserId(userId)).thenReturn(profile);
 
@@ -85,8 +87,6 @@ public class ProfileControllerTest {
         mockMvc.perform(get("/profiles")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-        //.andExpect(jsonPath("$", hasSize(2)))
-        //.andExpect(jsonPath("$[0].title").value("Task 1"))
-        //.andExpect(jsonPath("$[1].title").value("Task 2"));
+                //.andExpect(jsonPath("$[0].userId").value("10"));
     }
 }

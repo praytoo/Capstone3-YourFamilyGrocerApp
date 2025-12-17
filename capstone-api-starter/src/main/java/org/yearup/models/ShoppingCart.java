@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class ShoppingCart
 {
+    //properties
     private Integer userId;
     private Integer productId;
     private Integer quantity;
@@ -17,14 +18,17 @@ public class ShoppingCart
         this.total = total;
     }
 
+    //empty constructor
     public ShoppingCart() {
     }
 
+    //constructor
     public ShoppingCart(Integer userId, Map<Integer, ShoppingCartItem> items) {
         this.userId = userId;
         this.items = items;
     }
 
+    //getters and setters
     public Integer getUserId() {
         return userId;
     }

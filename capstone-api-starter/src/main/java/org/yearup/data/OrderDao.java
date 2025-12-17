@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 
 @Component
 public interface OrderDao {
+    //methods to be overridden in OrderDaoImpl
     Integer createOrder(Integer userId);
     void addOrderLineItem(Integer orderId, ShoppingCartItem item);
 }

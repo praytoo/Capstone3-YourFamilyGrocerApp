@@ -7,6 +7,7 @@ import java.util.List;
 
 @Component
 public interface UserDao {
+    //methods to be overridden in UserDaoImpl
 
     List<User> getAll();
 

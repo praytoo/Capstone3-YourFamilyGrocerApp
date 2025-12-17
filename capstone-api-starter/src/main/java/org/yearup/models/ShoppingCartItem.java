@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public class ShoppingCartItem
 {
+    //properties
     private Product product;
     private int quantity = 1;
     private BigDecimal discountPercent = BigDecimal.ZERO;
@@ -16,16 +17,20 @@ public class ShoppingCartItem
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
+    //constructor
     public ShoppingCartItem(int productId, int quantity) {
         this.product = new Product();
         this.product.setProductId(productId);
         this.quantity = quantity;
     }
+    //constructor
     public ShoppingCartItem(Product product, int quantity) {
         this.product = product;
         this.quantity = quantity;
     }
 
+    //getters and setters
     public Product getProduct()
     {
         return product;

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public class Product
 {
+    //properties
     private int productId;
     private String name;
     private BigDecimal price;
@@ -14,10 +15,12 @@ public class Product
     private boolean isFeatured;
     private String imageUrl;
 
+    //empty constructor
     public Product()
     {
     }
 
+    //constructor
     public Product(int productId, String name, BigDecimal price, int categoryId, String description, String subCategory, int stock, boolean isFeatured, String imageUrl)
     {
         this.productId = productId;
@@ -31,6 +34,7 @@ public class Product
         this.imageUrl = imageUrl;
     }
 
+    //getters and setters
     public int getProductId()
     {
         return productId;

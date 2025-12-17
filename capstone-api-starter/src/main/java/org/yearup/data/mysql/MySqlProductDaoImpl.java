@@ -21,6 +21,7 @@ public class MySqlProductDaoImpl extends MySqlDaoBase implements ProductDao
         super(dataSource);
     }
 
+    //searching the db for products that meet the filtering value
     @Override
     public List<Product> search(Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String subCategory)
     {
@@ -73,6 +74,7 @@ public class MySqlProductDaoImpl extends MySqlDaoBase implements ProductDao
         return products;
     }
 
+    //overridden method to list products by category id
     @Override
     public List<Product> listByCategoryId(int categoryId)
     {
@@ -102,6 +104,7 @@ public class MySqlProductDaoImpl extends MySqlDaoBase implements ProductDao
         return products;
     }
 
+    //overridden method to get products by product id
     @Override
     public Product getById(int productId)
     {
@@ -125,6 +128,7 @@ public class MySqlProductDaoImpl extends MySqlDaoBase implements ProductDao
         return null;
     }
 
+    //overridden method that inserts a new product into the db
     @Override
     public Product create(Product product)
     {
@@ -166,6 +170,7 @@ public class MySqlProductDaoImpl extends MySqlDaoBase implements ProductDao
         return null;
     }
 
+    //overridden method that updates a product by product id
     @Override
     public void update(int productId, Product product)
     {
@@ -201,6 +206,7 @@ public class MySqlProductDaoImpl extends MySqlDaoBase implements ProductDao
         }
     }
 
+    //overridden method that deletes a product by product id
     @Override
     public void delete(int productId)
     {
@@ -221,6 +227,7 @@ public class MySqlProductDaoImpl extends MySqlDaoBase implements ProductDao
         }
     }
 
+    //method that maps a row for a product
     protected static Product mapRow(ResultSet row) throws SQLException
     {
         int productId = row.getInt("product_id");

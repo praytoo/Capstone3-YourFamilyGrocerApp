@@ -2,6 +2,7 @@ package org.yearup.models;
 
 public class Profile
 {
+    //properties
     private int userId;
     private String firstName = "";
     private String lastName = "";
@@ -12,10 +13,12 @@ public class Profile
     private String state = "";
     private String zip = "";
 
+    //empty constructor
     public Profile()
     {
     }
 
+    //constructor
     public Profile(int userId, String firstName, String lastName, String phone, String email, String address, String city, String state, String zip)
     {
         this.userId = userId;
@@ -29,6 +32,7 @@ public class Profile
         this.zip = zip;
     }
 
+    //getters and setters
     public int getUserId()
     {
         return userId;

@@ -16,6 +16,8 @@ public class UserService {
         this.userDao = userDao;
     }
 
+    //methods that the user dao implements
+
     public List<User> getAll(){
         return userDao.getAll();
     }

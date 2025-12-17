@@ -22,6 +22,7 @@ public class MySqlUserDaoImpl extends MySqlDaoBase implements UserDao
     }
 
 
+    //method that creates a new user
     @Override
     public User create(User newUser)
     {
@@ -49,6 +50,7 @@ public class MySqlUserDaoImpl extends MySqlDaoBase implements UserDao
         }
     }
 
+    //overridden method that gets all users as a list
     @Override
     public List<User> getAll()
     {
@@ -75,6 +77,7 @@ public class MySqlUserDaoImpl extends MySqlDaoBase implements UserDao
         return users;
     }
 
+    //method that gets user by id
     @Override
     public User getUserById(int id)
     {
@@ -99,6 +102,7 @@ public class MySqlUserDaoImpl extends MySqlDaoBase implements UserDao
         return null;
     }
 
+    //overridden method that gets user by username
     @Override
     public User getByUserName(String username)
     {
@@ -127,6 +131,7 @@ public class MySqlUserDaoImpl extends MySqlDaoBase implements UserDao
         return null;
     }
 
+    //overridden method that gets username by user id
     @Override
     public int getIdByUsername(String username)
     {
@@ -140,6 +145,7 @@ public class MySqlUserDaoImpl extends MySqlDaoBase implements UserDao
         return -1;
     }
 
+    //method that checks if a username already exists
     @Override
     public boolean exists(String username)
     {
@@ -147,6 +153,7 @@ public class MySqlUserDaoImpl extends MySqlDaoBase implements UserDao
         return user != null;
     }
 
+    //method that maps a new user in the db
     private User mapRow(ResultSet row) throws SQLException
     {
         int userId = row.getInt("user_id");

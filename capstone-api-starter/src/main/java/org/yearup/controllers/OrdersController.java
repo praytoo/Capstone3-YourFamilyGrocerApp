@@ -22,6 +22,8 @@ public class OrdersController {
         this.userService = userService;
     }
 
+    //method for check out
+    //using principal to get the user
     @PostMapping
     public Orders checkOutOrder(Principal principal) {
         String username = principal.getName();

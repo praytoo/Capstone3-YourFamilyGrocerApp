@@ -15,6 +15,8 @@ public class ProfileService {
         this.profileDao = profileDao;
     }
 
+    //methods that the profile dao implements
+
     public Profile create(Profile profile){
         return profileDao.create(profile);
     }

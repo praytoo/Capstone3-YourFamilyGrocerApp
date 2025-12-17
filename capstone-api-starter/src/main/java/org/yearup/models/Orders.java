@@ -3,6 +3,7 @@ package org.yearup.models;
 import java.util.Date;
 
 public class Orders {
+    //properties
     private ShoppingCart shoppingCart;
     private Integer userId;
     private Date date;
@@ -12,6 +13,7 @@ public class Orders {
     private String zip;
     private Integer shippingAmount;
 
+    //constructor
     public Orders(ShoppingCart shoppingCart, Integer userId, Date date, String address, String city, String state, String zip, Integer shippingAmount) {
         this.shoppingCart = shoppingCart;
         this.userId = userId;
@@ -22,6 +24,8 @@ public class Orders {
         this.zip = zip;
         this.shippingAmount = shippingAmount;
     }
+
+    //getters and setters
 
     public Integer getUserId() {
         return userId;

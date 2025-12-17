@@ -67,6 +67,7 @@ public class AuthenticationControllerTest {
     @DisplayName("Making sure login is wired correctly")
     @Test
     public void login() throws Exception{
+        // Arrange
         LoginDto login = new LoginDto();
 
         when(loginDto.getUsername()).thenReturn(String.valueOf(login));
@@ -75,14 +76,12 @@ public class AuthenticationControllerTest {
         mockMvc.perform(get("/profiles")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-        //.andExpect(jsonPath("$", hasSize(2)))
-        //.andExpect(jsonPath("$[0].title").value("Task 1"))
-        //.andExpect(jsonPath("$[1].title").value("Task 2"));
     }
 
     @DisplayName("Making sure register is wired correctly")
     @Test
     public void register() throws Exception{
+        // Arrange
         RegisterUserDto register = new RegisterUserDto();
 
         when(registerUserDto.getUsername()).thenReturn(String.valueOf(register));
@@ -91,8 +90,5 @@ public class AuthenticationControllerTest {
         mockMvc.perform(get("/profiles")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-        //.andExpect(jsonPath("$", hasSize(2)))
-        //.andExpect(jsonPath("$[0].title").value("Task 1"))
-        //.andExpect(jsonPath("$[1].title").value("Task 2"));
     }
 }

@@ -8,6 +8,7 @@ import java.util.List;
 @Component
 public interface CategoryDao
 {
+    //methods to be overridden in CategoryDaoImpl
     List<Category> getAllCategories(String name);
     Category getById(int categoryId);
     Category create(Category category);
