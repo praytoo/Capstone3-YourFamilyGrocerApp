@@ -35,7 +35,6 @@ public class OrdersController {
 
     //method for order history
     @GetMapping("/history")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<Orders> orderHistory(){
         return orderService.orderHistory();
     }
