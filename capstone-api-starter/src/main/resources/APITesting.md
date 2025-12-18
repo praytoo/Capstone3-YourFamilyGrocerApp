@@ -23,16 +23,16 @@ POST
 POST 
 - http://localhost:8080/products
   {
-  "productId": 69,
-  "name": "Teriyaki Chicken",
-  "price": 6.99,
+  "productId": 75,
+  "name": "Orange Chicken",
+  "price": 8.99,
   "categoryId": 1,
-  "description": "Delicious chicken marinated in teriyaki sauce",
+  "description": "Delicious chicken marinated in an orange sauce",
   "subCategory": "Fresh",
   "stock": 50,
-  "imageUrl": "teriyaki-chicken.jpg",
+  "imageUrl": "orange-chicken.jpg",
   "featured": true
   }
 5. delete a product
 DELETE
-- http://localhost:8080/products/69
+- http://localhost:8080/products/75
