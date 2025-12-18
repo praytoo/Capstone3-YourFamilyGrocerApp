@@ -9,6 +9,7 @@ import org.yearup.models.Orders;
 import org.yearup.models.ShoppingCartItem;
 import org.yearup.models.User;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -37,6 +38,9 @@ public class OrderService {
         }
         shoppingCartDao.clearCart(user.getId());
         return null;
+    }
+    public List<Orders> orderHistory(){
+        return orderDao.getOrders();
     }
 
 }

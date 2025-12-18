@@ -202,4 +202,17 @@ function placeOrder() {
     loadHome();
 
 }
+function viewOrderHistory() {
+    templateBuilder.build('order-history', {}, 'main');
 
+    // Wait for the template to be inserted into the DOM before loading data
+    setTimeout(() => {
+        orderService.loadOrderHistory();
+    }, 100);
+}
+
+function clearOrderHistory() {
+    if (confirm("Are you sure you want to clear all order history?")) {
+        alert("This feature requires backend implementation.");
+    }
+}

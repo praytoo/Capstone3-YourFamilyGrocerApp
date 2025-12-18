@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.yearup.data.OrderDao;
 import org.yearup.models.Orders;
+import org.yearup.models.Product;
 import org.yearup.models.ShoppingCartItem;
 import org.yearup.models.User;
 
@@ -11,6 +12,10 @@ import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class MySqlOrderDaoImpl extends MySqlDaoBase implements OrderDao {
@@ -63,5 +68,26 @@ public class MySqlOrderDaoImpl extends MySqlDaoBase implements OrderDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public List<Orders> getOrders() {
+        List<Orders> orderList = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT order_id, user_id, date, address, city, state, zip, shipping_amount FROM groceryapp.orders;");
+        ) {
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Orders order = new Orders(resultSet.getInt("order_id"), resultSet.getInt("user_id"), resultSet.getDate("date"), resultSet.getString("address"), resultSet.getString("city"), resultSet.getString("state"), resultSet.getString("zip"), resultSet.getInt("shipping_amount"));
+
+                    orderList.add(order);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return orderList;
     }
 }
