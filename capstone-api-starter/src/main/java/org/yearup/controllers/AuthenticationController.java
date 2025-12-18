@@ -24,6 +24,7 @@ import org.yearup.models.User;
 import org.yearup.security.jwt.JWTFilter;
 import org.yearup.security.jwt.TokenProvider;
 
+@RequestMapping("auth")
 @RestController
 @CrossOrigin
 @PreAuthorize("permitAll()")
