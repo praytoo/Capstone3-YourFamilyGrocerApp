@@ -6,10 +6,12 @@ import org.yearup.models.ShoppingCartItem;
 import org.yearup.models.User;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Component
 public interface OrderDao {
     //methods to be overridden in OrderDaoImpl
     Integer createOrder(Integer userId);
     void addOrderLineItem(Integer orderId, ShoppingCartItem item);
+    List<Orders> getOrders();
 }

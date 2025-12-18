@@ -21,26 +21,23 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
-// convert this class to a REST controller
-// only logged-in users should have access to these actions
 @RestController
 @RequestMapping("cart")
 @PreAuthorize("permitAll()")
 @CrossOrigin
 public class ShoppingCartController {
-    // a shopping cart requires
     private ShoppingCartService shoppingCartService;
     private UserService userService;
     private ProductService productService;
 
+    //autowired constructor
     @Autowired
     public ShoppingCartController(ShoppingCartService shoppingCartService, UserService userService, ProductService productService) {
         this.shoppingCartService = shoppingCartService;
         this.userService = userService;
         this.productService = productService;
     }
-
-    // each method in this controller requires a Principal object as a parameter
+    //get cart method using @GetMapping that uses the calculate total method to calculate total
     @GetMapping
     public ShoppingCart getCart(Principal principal) {
         Map<Integer, ShoppingCartItem> items = shoppingCartService.getCart(principal);
@@ -78,10 +75,10 @@ public class ShoppingCartController {
         shoppingCartService.deleteCart(shoppingCart, principal);
     }
      */
-
+    //add product to cart method using @PostMapping that uses the calculate total method to calculate total
     @PostMapping("/products/{productId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public ShoppingCart addProduct2(
+    public ShoppingCart addProduct(
             @PathVariable Integer productId,
             @RequestParam(defaultValue = "1") Integer quantity,
             Principal principal
@@ -99,10 +96,10 @@ public class ShoppingCartController {
         return cart;
     }
 
-
+    //update cart method using @PutMapping using the calculate total method to calculate total
     @PutMapping("/products/{productId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ShoppingCart updateCart2(@PathVariable Integer productId, @RequestBody ShoppingCartItem shoppingCartItem, Principal principal) {
+    public ShoppingCart updateCart(@PathVariable Integer productId, @RequestBody ShoppingCartItem shoppingCartItem, Principal principal) {
         shoppingCartService.updateCart(productId, shoppingCartItem, principal);
         Map<Integer, ShoppingCartItem> items = shoppingCartService.getCart(principal);
 
@@ -115,9 +112,10 @@ public class ShoppingCartController {
         return cart;
     }
 
+    //delete cart method using @DeleteMapping using the calculate total method to calculate total
     @DeleteMapping
     //@ResponseStatus(HttpStatus.NO_CONTENT)
-    public ShoppingCart deleteCart2(Principal principal) {
+    public ShoppingCart deleteCart(Principal principal) {
         shoppingCartService.clearCart(principal);
         Map<Integer, ShoppingCartItem> items = shoppingCartService.getCart(principal);
 
@@ -130,6 +128,7 @@ public class ShoppingCartController {
         return cart;
     }
 
+    //post mapping build cart method
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ShoppingCart buildCart(@RequestBody ShoppingCartItem item, Principal principal) {
@@ -146,6 +145,7 @@ public class ShoppingCartController {
         return cart;
     }
 
+    //method for calculating total using BigDecimal
     public BigDecimal calculateTotal(Map<Integer, ShoppingCartItem> items) {
         return items.values().stream()
                 .map(item ->

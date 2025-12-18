@@ -1,21 +1,26 @@
 package org.yearup.security;
 
-import org.yearup.security.jwt.JWTConfigurer;
-import org.yearup.security.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.yearup.security.jwt.JWTConfigurer;
+import org.yearup.security.jwt.TokenProvider;
+
+import java.util.Arrays;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
 
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -39,49 +44,60 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    /**
-     * Configure paths and requests that should be ignored by Spring Security
-     * @param web
-     */
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource2() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        // Allow requests from IntelliJ's built-in server and localhost
+        configuration.setAllowedOrigins(Arrays.asList(
+                "http://localhost:63342",
+                "http://localhost:8080",
+                "http://127.0.0.1:63342"
+        ));
+
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
+        configuration.setExposedHeaders(Arrays.asList("Authorization"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
     }
 
-    /**
-     * Configure security settings
-     * @param http
-     * @throws Exception
-     */
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+                .cors(cors -> cors.configurationSource(corsConfigurationSource2()))
+                .csrf(csrf -> csrf.disable())
 
-                .exceptionHandling()
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                .accessDeniedHandler(jwtAccessDeniedHandler)
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                        .accessDeniedHandler(jwtAccessDeniedHandler)
+                )
 
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
 
-                .and()
-                .authorizeRequests()
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(new AntPathRequestMatcher("/auth/login", "POST")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/auth/register", "POST")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/categories")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/categories/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/products")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/products/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/**", "OPTIONS", false)).permitAll()
+                        .anyRequest().authenticated()
+                )
 
-                .antMatchers(
-                        "/login",
-                        "/register",
-                        "/categories",
-                        "/products"
-                ).permitAll()
-
-                .anyRequest().authenticated()
-
-                .and()
                 .apply(securityConfigurerAdapter());
+
+        return http.build();
     }
+
     private JWTConfigurer securityConfigurerAdapter() {
         return new JWTConfigurer(tokenProvider);
     }
 }
-

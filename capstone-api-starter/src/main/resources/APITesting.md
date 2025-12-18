@@ -1,5 +1,5 @@
 1. log in as user:
--  http://localhost:8080/login
+-  http://localhost:8080/auth/login
 POST
 {
 "username": "saint",
@@ -12,7 +12,7 @@ GET
 GET
 - http://localhost:8080/products?cat=1&subCategory=fresh
 3. log in as admin:
-- http://localhost:8080/login
+- http://localhost:8080/auth/login
 POST
   {
   "username": "PrinceHaywood",

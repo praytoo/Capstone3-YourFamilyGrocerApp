@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Orders {
     //properties
-    private ShoppingCart shoppingCart;
+    private Integer orderId;
     private Integer userId;
     private Date date;
     private String address;
@@ -13,9 +13,12 @@ public class Orders {
     private String zip;
     private Integer shippingAmount;
 
+    public Orders() {
+    }
+
     //constructor
-    public Orders(ShoppingCart shoppingCart, Integer userId, Date date, String address, String city, String state, String zip, Integer shippingAmount) {
-        this.shoppingCart = shoppingCart;
+    public Orders(Integer orderId, Integer userId, Date date, String address, String city, String state, String zip, Integer shippingAmount) {
+        this.orderId = orderId;
         this.userId = userId;
         this.date = date;
         this.address = address;
@@ -83,11 +86,11 @@ public class Orders {
         this.shippingAmount = shippingAmount;
     }
 
-    public ShoppingCart getShoppingCart() {
-        return shoppingCart;
+    public Integer getOrderId() {
+        return orderId;
     }
 
-    public void setShoppingCart(ShoppingCart shoppingCart) {
-        this.shoppingCart = shoppingCart;
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 }
