@@ -24,6 +24,7 @@ import org.yearup.models.User;
 import org.yearup.security.jwt.JWTFilter;
 import org.yearup.security.jwt.TokenProvider;
 
+//auth request mapping for better security organization
 @RequestMapping("auth")
 @RestController
 @CrossOrigin
