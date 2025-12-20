@@ -119,8 +119,8 @@ Key tables include:
 
 ### Authentication
 
-* `POST http://localhost:8080/register`
-* `POST http://localhost:8080/login`
+* `POST http://localhost:8080/auth/register`
+* `POST http://localhost:8080/auth/login`
 
 ### Products
 
